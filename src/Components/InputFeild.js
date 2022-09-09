@@ -29,7 +29,7 @@ const Container = styled.div`
     border-bottom: 1px solid var(--shadow);
     color: var(--shadow);
     font-weight: 100;
-    font-size: 1rem;
+    font-size: 0.9rem;
 
     &::after {
       content: "";
@@ -71,5 +71,20 @@ const Container = styled.div`
         }
       }
     }
+  }
+
+  @media only screen and (max-width: 950px) {
+    .label-container {
+      font-size: 0.9rem;
+    }
+  }
+
+  @media only screen and (max-width: 650px) {
+    .label-container {
+      font-size: 0.8rem;
+    }
+  }
+
+  @media only screen and (max-width: 450px) {
   }
 `;

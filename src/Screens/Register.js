@@ -22,7 +22,6 @@ function Register() {
       <div className="back-btn">
         <img src={Back} alt="back" onClick={() => navigate("/")} />
       </div>
-
       <div className="register-container">
         <div className="cover"></div>
         <form className="form">

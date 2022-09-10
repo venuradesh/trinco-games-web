@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
+import { collection, addDoc, getDocs, onSnapshot, query, where, doc, setDoc,updateDoc } from "firebase/firestore";
+import {db} from "../Firebase/firebase";
+
 //components
 import InputFeild from "./InputFeild";
 
@@ -17,6 +20,52 @@ function Login() {
     setClicked("group");
   };
 
+  const onSubmitClick=(e)=>{
+    e.preventDefault();
+    if(clicked=="individual"){
+        singleUserLogin()
+    }
+    else{
+      groupUserLogin()
+    }
+
+  }
+
+  const singleUserLogin=()=>{
+    let name=document.getElementById('username').value;
+    let password=document.getElementById('password').value;
+    const q = query(collection(db, "single_user"));
+    const user = onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        if(doc.data().password==password && doc.data().userName==name){
+
+          console.log('go to dashboard');
+        }
+        else{
+          console.log('invalid login');
+        }
+        
+      });
+    });
+  }
+
+  const groupUserLogin=()=>{
+    let name=document.getElementById('username').value;
+    let password=document.getElementById('password').value;
+    const q = query(collection(db, "group"));
+    const user = onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        if(doc.data().password==password && doc.data().groupName==name){
+          console.log('go to dashboard');
+        }
+        else{
+          console.log('invalid login');
+        }
+        
+      });
+    });
+  }
+
   return (
     <Container>
       <div className="login-user-type">
@@ -30,7 +79,7 @@ function Login() {
       {clicked === "individual" ? <InputFeild type="text" id="username" content="user name" /> : <InputFeild type="text" id="username" content="group name" />}
       <InputFeild type="password" id="password" content="password" />
       <div className="btn-container">
-        <div className="submit btn">Submit</div>
+        <div className="submit btn" onClick={(e)=>onSubmitClick(e)}>Submit</div>
         <div className="reset btn">Reset</div>
       </div>
       <div className="create-account">

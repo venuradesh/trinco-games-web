@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 function InputFeild(props) {
   return (
-    <Container>
+    <Container onChange={props.checkUser}>
       <input type={props.type} id={props.id} name={props.id} className={`${props.type} input`} autoComplete="off" required />
       <label htmlFor={props.id} className="label-container">
         <span className="label-content">{props.content}</span>

@@ -12,7 +12,12 @@ import {db} from "../Firebase/firebase";
 function Register() {
   const navigate = useNavigate();
   const [clicked, setClicked] = useState("individual");
-  const [error, setError] = useState("");
+  const [nameError, setNameError] = useState("");
+  const [regNumError, setRegNumError] = useState("");
+  const [grpError, serGrpError] = useState("");
+
+  const [grpNameError, setGrpNameError] = useState("");
+  
   
   const onSubmitClick =(e) => {
     e.preventDefault();
@@ -56,29 +61,8 @@ function Register() {
   };
 
   function addSingleUser(name,userName,faculty,password,regNo){
-    let t=true;
-    let q = query(collection(db, "single_user"));
-    let user = onSnapshot(q, (querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        if(doc.data().userName==userName){
-          setError('user Name already added');
-          t=false;
-        }
-      });
-    });
 
-    q = query(collection(db, "group"));
-    user = onSnapshot(q, (querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        if(doc.data().groupRegNo1==regNo || doc.data().groupRegNo2==regNo || doc.data().groupRegNo3==regNo || doc.data().groupRegNo4==regNo){
-          setError(error+' you are already registered a in group');
-          t=false;
-        }
-      });
-    });
-
-
-    if(t){
+    if(nameError=='' && regNumError=='' && grpError==''){
       const ref =  doc(collection(db, "single_user"));
       const docRef= addDoc(collection(db, "single_user"), {
         name: name,
@@ -88,49 +72,116 @@ function Register() {
         regNo: regNo,
         key:ref.id
       });
-      console.log(ref.id);
+      console.log('sucsses'+ref.id);
       return docRef;
+    }
+    else{
+      console.log(nameError);
+      console.log(regNumError);
+      console.log(grpError);
     }
   }
 
 
   const checkUser=(e)=>{
     let t=true;
-    let userName=document.getElementById('username').value;
+    let userName=e.target.value;
     let q = query(collection(db, "single_user"));
     let user = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
         if(doc.data().userName==userName){
-          setError('user Name already added');
+          setNameError('user Name already added');
           t=false;
-        }
-        else{
-          setError('');
         }
       });
     });
-    console.log(error);
+    if(t){
+      setNameError('');
+    }
   }
+  const checkRegNumber=(e)=>{
+    let t=true;
+    let regNo=e.target.value;
+    let q = query(collection(db, "single_user"));
+    let user = onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        
+        if(doc.data().regNo==regNo){
+          setRegNumError(regNo+' register number already added');
+          t=false;
+          
+        }
+      });
+    });
+    if(t){
+      setRegNumError('');
+    }
+    checkGrpError(e);
+  }
+
+  const checkGrpError=(e)=>{
+    let t=true;
+    let regNo=e.target.value;
+    console.log(regNo);
+    const q = query(collection(db, "group"));
+    const user = onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        if(doc.data().groupRegNo1==regNo || doc.data().groupRegNo2==regNo || doc.data().groupRegNo3==regNo || doc.data().groupRegNo4==regNo){
+          serGrpError(regNo+' you are already registered a in group');
+          t=false;
+        }
+      });
+    });
+    if(t){
+      setRegNumError('');
+    }
+  }
+
+
 
   function addGroup(groupName,groupMembersName,faculty,password,groupRegNo){
     const ref =  doc(collection(db, "group"));
-      
-    const docRef= addDoc(collection(db, "group"), {
-      groupName: groupName,
-      groupMember1: groupMembersName[0],
-      groupMember2: groupMembersName[1],
-      groupMember3: groupMembersName[2],
-      groupMember4: groupMembersName[3],
-      faculty: faculty,
-      password: password,
-      groupRegNo1: groupRegNo[0],
-      groupRegNo2: groupRegNo[1],
-      groupRegNo3: groupRegNo[2],
-      groupRegNo4: groupRegNo[3],
-      key: ref.id
+    
+    if(grpNameError=='' && regNumError=='' && grpError==''){
+      const docRef= addDoc(collection(db, "group"), {
+        groupName: groupName,
+        groupMember1: groupMembersName[0],
+        groupMember2: groupMembersName[1],
+        groupMember3: groupMembersName[2],
+        groupMember4: groupMembersName[3],
+        faculty: faculty,
+        password: password,
+        groupRegNo1: groupRegNo[0],
+        groupRegNo2: groupRegNo[1],
+        groupRegNo3: groupRegNo[2],
+        groupRegNo4: groupRegNo[3],
+        key: ref.id
+      });
+      console.log(ref.id);
+      return docRef;
+    }
+    else{
+      console.log(grpNameError);
+      console.log(regNumError);
+      console.log(grpError);
+    }
+  }
+
+  const checkGroup=(e)=>{
+    let t=true;
+    let groupName=e.target.value;
+    let q = query(collection(db, "group"));
+    let user = onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        if(doc.data().groupName==groupName){
+          setGrpNameError('group Name already added');
+          t=false;
+        }
+      });
     });
-    console.log(ref.id);
-    return docRef;
+    if(t){
+      setGrpNameError('');
+    }
   }
 
 
@@ -148,7 +199,7 @@ function Register() {
         <form className="form" method="get" action="">
           <div className="title">Register</div>
           <div className="inputs">
-            {clicked === "individual" ? <InputFeild type="text" id="full-name" content="Name" checkUser={""}/> : <InputFeild type="text" id="group-name" content="Group name" checkUser={""}/>}
+            {clicked === "individual" ? <InputFeild type="text" id="full-name" content="Name" checkUser={""}/> : <InputFeild type="text" id="group-name" content="Group name" checkUser={checkGroup}/>}
             <select name="faculties" id="faculties" defaultValue={"none"}>
               <option value="none" disabled hidden>
                 Select Faculty
@@ -158,24 +209,24 @@ function Register() {
               <option value="siddha">Siddha Unit</option>
             </select>
             {clicked === "individual" ? (
-              <InputFeild type="text" id="reg-no" content="Register Number" checkUser={""}/>
+              <InputFeild type="text" id="reg-no" content="Register Number" checkUser={checkRegNumber}/>
             ) : (
               <>
                 <div className="member">
                   <InputFeild type="text" id="full-name1" content="member 1 Name" checkUser={""}/>
-                  <InputFeild type="text" id="reg-no1" content="Register Number" checkUser={""}/>
+                  <InputFeild type="text" id="reg-no1" content="Register Number" checkUser={checkRegNumber}/>
                 </div>
                 <div className="member">
                   <InputFeild type="text" id="full-name2" content="member 2 Name" checkUser={""}/>
-                  <InputFeild type="text" id="reg-no2" content="Register Number" checkUser={""}/>
+                  <InputFeild type="text" id="reg-no2" content="Register Number" checkUser={checkRegNumber}/>
                 </div>
                 <div className="member">
                   <InputFeild type="text" id="full-name3" content="member 3 Name" checkUser={""}/>
-                  <InputFeild type="text" id="reg-no3" content="Register Number"checkUser={""} />
+                  <InputFeild type="text" id="reg-no3" content="Register Number"checkUser={checkRegNumber} />
                 </div>
                 <div className="member">
                   <InputFeild type="text" id="full-name4" content="member 4 Name" checkUser={""}/>
-                  <InputFeild type="text" id="reg-no4" content="Register Number" checkUser={""} />
+                  <InputFeild type="text" id="reg-no4" content="Register Number" checkUser={checkRegNumber} />
                 </div>
               </>
             )}

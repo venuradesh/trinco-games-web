@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import Hamburger from "../assets/square.png";
 
 function Header() {
+  const [hamClicked, setHamClicked] = useState(false);
+
   return (
     <Container>
       <div className="logo">Trinco Games</div>
@@ -9,6 +12,14 @@ function Header() {
         <div className="item">Home</div>
         <div className="item">Leaderboard</div>
         <div className="item">Profile</div>
+      </div>
+      <div className="hamburger">
+        <img src={Hamburger} alt="hamburger" onClick={() => (hamClicked ? setHamClicked(false) : setHamClicked(true))} />
+        <div className={`items-ham ${hamClicked ? "active" : ""}`}>
+          <div className="item">Home</div>
+          <div className="item">Leaderboard</div>
+          <div className="item">Profile</div>
+        </div>
       </div>
     </Container>
   );
@@ -49,6 +60,55 @@ const Container = styled.div`
 
       &:hover {
         text-decoration: underline;
+      }
+    }
+  }
+
+  .hamburger {
+    display: none;
+  }
+
+  @media only screen and (max-width: 650px) {
+    align-items: center;
+
+    .items {
+      display: none;
+    }
+
+    .hamburger {
+      display: flex;
+      position: relative;
+
+      img {
+        width: 40px;
+        height: 40px;
+      }
+
+      .items-ham {
+        position: absolute;
+        visibility: hidden;
+        right: -100%;
+        top: 60px;
+        transition: all 0.3s ease;
+
+        .item {
+          width: 100%;
+          height: 50px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        &.active {
+          visibility: visible;
+          background-color: var(--white);
+          padding: 0px 20px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          right: 0;
+          top: 60px;
+        }
       }
     }
   }

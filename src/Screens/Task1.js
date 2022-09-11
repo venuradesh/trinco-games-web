@@ -48,6 +48,7 @@ function Task1({ randomNumber }) {
             <InputFeild type="text" id="selfie-upload" content="Upload the Facebook link here" />
             <img src={Hand} alt="pointer" className="hand" />
           </div>
+          <div className="btn">Submit</div>
         </div>
         <div className="instruction-container">
           <div className="desc">
@@ -133,7 +134,7 @@ const Container = styled.div`
 
       .challengeImage {
         width: 100%;
-        height: 80%;
+        height: 70%;
         object-fit: cover;
         filter: blur(6px);
       }
@@ -160,6 +161,24 @@ const Container = styled.div`
           100% {
             transform: rotateZ(180deg) rotateX(180deg) translateX(0px);
           }
+        }
+      }
+
+      .btn {
+        margin-top: 20px;
+        width: 100%;
+        height: 50px;
+        background-color: var(--theme1);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          transform: scale(1.02);
         }
       }
     }
@@ -243,6 +262,9 @@ const Container = styled.div`
       flex-direction: column;
 
       .image-container {
+        flex: 1;
+        height: 80%;
+
         .link {
           padding-left: 20px;
           padding-right: 10px;
@@ -250,6 +272,8 @@ const Container = styled.div`
       }
 
       .instruction-container {
+        flex: 1;
+        margin-top: 20px;
         padding: 0 20px;
       }
     }

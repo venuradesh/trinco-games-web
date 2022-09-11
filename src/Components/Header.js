@@ -108,6 +108,7 @@ const Container = styled.div`
           align-items: center;
           right: 0;
           top: 60px;
+          box-shadow: 0 0 10px 0 var(--gray);
         }
       }
     }

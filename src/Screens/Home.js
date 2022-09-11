@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Header from "../Components/Header";
 import Image from "../assets/map2.jpg";
+import TaskCard from "../Components/TaskCard";
 
 function Home() {
   return (
@@ -10,6 +11,25 @@ function Home() {
       <div className="map">
         <div className="background"></div>
         <div className="background-tint"></div>
+        <div className="tasks">
+          <div className="task-list">
+            <div className="task task1">
+              <TaskCard day="day 01" task="Task 01" desc={"Lorem, ipsum dolor sit amet consectetur "} availability="available" />
+            </div>
+            <div className="task task2">
+              <TaskCard day="day 02" task="Task 02" desc={"Lorem, ipsum dolor sit amet consectetur "} availability="available" />
+            </div>
+            <div className="task task3">
+              <TaskCard day="day 03" task="Task 03" desc={"Lorem, ipsum dolor sit amet consectetur "} availability="available" />
+            </div>
+            <div className="task task4">
+              <TaskCard day="day 04" task="Task 04" desc={"Lorem, ipsum dolor sit amet consectetur "} availability="available" />
+            </div>
+            <div className="task task5">
+              <TaskCard day="day 05" task="Task 05" desc={"Lorem, ipsum dolor sit amet consectetur "} availability="available" />
+            </div>
+          </div>
+        </div>
       </div>
     </Container>
   );
@@ -19,11 +39,13 @@ export default Home;
 
 const Container = styled.div`
   width: 100vw;
-  height: calc(100vh);
+  height: calc(max-content + 100px);
+  z-index: 0;
 
   .map {
     width: 100%;
-    height: calc(100vh);
+    min-height: 100vh;
+    height: calc(max-content + 100px);
     position: relative;
 
     .background {
@@ -37,6 +59,7 @@ const Container = styled.div`
       object-fit: cover;
       background-repeat: no-repeat;
       background-position: center;
+      z-index: -1;
     }
 
     .background-tint {
@@ -47,6 +70,73 @@ const Container = styled.div`
       height: 100%;
       background-color: var(--theme1);
       opacity: 0.5;
+      z-index: -1;
+    }
+
+    .tasks {
+      width: 100%;
+      height: calc(100vh - 70px);
+      position: relative;
+      top: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .task-list {
+        height: calc(max-content + 10%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        column-gap: 20px;
+        row-gap: 80px;
+        flex-wrap: wrap;
+
+        .task {
+          &:nth-of-type() {
+            margin-top: 300px;
+          }
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 1300px) {
+    .map {
+      .tasks {
+        .task-list {
+          .task {
+            &:nth-of-type(2n) {
+              margin-top: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 800px) {
+    .map {
+      height: 150vh;
+
+      .tasks {
+        align-items: flex-start;
+
+        .task-list {
+          margin-top: 30px;
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 520px) {
+    .map {
+      height: 230vh;
+    }
+  }
+
+  @media only screen and (max-width: 450px) {
+    .map {
+      height: 280vh;
     }
   }
 `;

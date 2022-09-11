@@ -92,6 +92,7 @@ const Container = styled.div`
     .hamburger {
       display: flex;
       position: relative;
+      cursor: pointer;
 
       img {
         width: 40px;
@@ -111,6 +112,7 @@ const Container = styled.div`
           display: flex;
           align-items: center;
           justify-content: center;
+          cursor: pointer;
         }
 
         &.active {

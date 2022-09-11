@@ -19,8 +19,8 @@ function Register() {
   const [grpError, serGrpError] = useState("");
   const [regNoPatternError, setRegNoPatternError] = useState("");
   const [grpNameError, setGrpNameError] = useState("");
-  const [singleFeildMissingError, setSingleFeildMissingError] = useState("");
-  const [groupFeildMissingError, setGroupFeildMissingError] = useState("");
+  const [singleFeildMissingError, setSingleFeildMissingError] = useState("All Feilds Must be required");
+  const [groupFeildMissingError, setGroupFeildMissingError] = useState("All Feilds Must be required");
 
   // useEffect(() => {
   //   if(typeof(ReactSession.get("un")) == "undefined" || ReactSession.get("un") == ""){
@@ -68,19 +68,23 @@ function Register() {
       
       if(checkAllFeildsSingle(name, userName, faculty, password, regNo,tpno)){
         Promise.all([addSingleUser(name, userName, faculty, password, regNo,tpno)]);
+       
       }
       else{
         setSingleFeildMissingError("All Feilds Must be required");
         console.log(singleFeildMissingError);
+        alert(singleFeildMissingError);
       }
       
     } else {
       if(checkAllFeildsGroup(groupName, groupMembersName, faculty, password, groupRegNo,tpno)){
         Promise.all([addGroup(groupName, groupMembersName, faculty, password, groupRegNo,tpno)]);
+        
       }
       else{
         setGroupFeildMissingError("All Feilds Must be required");
         console.log(groupFeildMissingError);
+        alert(groupFeildMissingError);
       }
       
     }
@@ -100,12 +104,13 @@ function Register() {
         key: ref.id,
       });
       console.log("sucsses" + ref.id);
-      return docRef;
+      navigate('/');
     } else {
       console.log(nameError);
       console.log(regNumError);
       console.log(grpError);
       console.log(regNoPatternError);
+      alert(nameError+"\n"+regNumError+"\n"+grpError+"\n"+regNoPatternError);
     }
   }
 
@@ -128,40 +133,114 @@ function Register() {
   const checkRegNumber = (e) => {
   
     let t = true;
-    let regNo = e.target.value;
-    validRegNo(regNo);
-    let q = query(collection(db, "single_user"));
-    let user = onSnapshot(q, (querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        if (doc.data().regNo == regNo) {
-          setRegNumError(regNo + " register number already added");
-          t = false;
-        }
+
+    if (clicked === "individual"){
+      let regNo=document.getElementById('reg-no').value;
+      validRegNo(regNo);
+      const q = query(collection(db, "single_user"));
+      const user = onSnapshot(q, (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (doc.data().regNo == regNo) {
+            setRegNumError(regNo + " register number already added");
+            t = false;
+          }
+        });
       });
-    });
-    if (t) {
-      setRegNumError("");
+      if (t) {
+        setRegNumError("");
+      }
     }
-    checkGrpError(e);
+    else{
+      let regNo1=document.getElementById('reg-no1').value;
+      let regNo2=document.getElementById('reg-no2').value;
+      let regNo3=document.getElementById('reg-no3').value;
+      let regNo4=document.getElementById('reg-no4').value;
+      validRegNo(regNo1);
+      validRegNo(regNo2);
+      validRegNo(regNo3);
+      validRegNo(regNo4);
+      const q = query(collection(db, "single_user"));
+      const user = onSnapshot(q, (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (doc.data().regNo == regNo1) {
+            setRegNumError(regNo1 + " register number already added");
+            t = false;
+          }
+          else if (doc.data().regNo == regNo2) {
+            setRegNumError(regNo2 + " register number already added");
+            t = false;
+          }
+          else if (doc.data().regNo == regNo3) {
+            setRegNumError(regNo3 + " register number already added");
+            t = false;
+          }
+          else if (doc.data().regNo == regNo4) {
+            setRegNumError(regNo4 + " register number already added");
+            t = false;
+          }
+        });
+      });
+      if (t) {
+        setRegNumError("");
+      }
+    }
+
+    checkGrpError();
   };
 
-  const checkGrpError = (e) => {
+  const checkGrpError = () => {
     let t = true;
-    let regNo = e.target.value;
-    validRegNo(regNo);
-    console.log(regNo);
-    const q = query(collection(db, "group"));
-    const user = onSnapshot(q, (querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        if (doc.data().groupRegNo1 == regNo || doc.data().groupRegNo2 == regNo || doc.data().groupRegNo3 == regNo || doc.data().groupRegNo4 == regNo) {
-          serGrpError(regNo + " you are already registered a in group");
-          t = false;
-        }
+    if (clicked === "individual"){
+      let regNo=document.getElementById('reg-no').value;
+      validRegNo(regNo);
+      const q = query(collection(db, "group"));
+      const user = onSnapshot(q, (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (doc.data().groupRegNo1 == regNo || doc.data().groupRegNo2 == regNo || doc.data().groupRegNo3 == regNo || doc.data().groupRegNo4 == regNo) {
+            serGrpError(regNo + " you are already registered a in group");
+            t = false;
+          }
+        });
       });
-    });
-    if (t) {
-      setRegNumError("");
+      if (t) {
+        serGrpError("");
+      }
     }
+    else{
+      let regNo1=document.getElementById('reg-no1').value;
+      let regNo2=document.getElementById('reg-no2').value;
+      let regNo3=document.getElementById('reg-no3').value;
+      let regNo4=document.getElementById('reg-no4').value;
+      validRegNo(regNo1);
+      validRegNo(regNo2);
+      validRegNo(regNo3);
+      validRegNo(regNo4);
+      const q = query(collection(db, "group"));
+      const user = onSnapshot(q, (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (doc.data().groupRegNo1 == regNo1 || doc.data().groupRegNo2 == regNo1 || doc.data().groupRegNo3 == regNo1 || doc.data().groupRegNo4 == regNo1) {
+            serGrpError(regNo1 + " you are already registered a in group");
+            t = false;
+          }
+          else if (doc.data().groupRegNo1 == regNo2 || doc.data().groupRegNo2 == regNo2 || doc.data().groupRegNo3 == regNo2 || doc.data().groupRegNo4 == regNo2) {
+            serGrpError(regNo2 + " you are already registered a in group");
+            t = false;
+          }
+          else if (doc.data().groupRegNo1 == regNo3 || doc.data().groupRegNo2 == regNo3 || doc.data().groupRegNo3 == regNo3 || doc.data().groupRegNo4 == regNo3) {
+            serGrpError(regNo3 + " you are already registered a in group");
+            t = false;
+          }
+          else if (doc.data().groupRegNo1 == regNo4 || doc.data().groupRegNo2 == regNo4 || doc.data().groupRegNo3 == regNo4 || doc.data().groupRegNo4 == regNo4) {
+            serGrpError(regNo4 + " you are already registered a in group");
+            t = false;
+          }
+        });
+      });
+      if (t) {
+        serGrpError("");
+      }
+    }
+    
   };
 
   function addGroup(groupName, groupMembersName, faculty, password, groupRegNo,tpno) {
@@ -184,13 +263,14 @@ function Register() {
         points:0,
         key: ref.id,
       });
-      console.log(ref.id);
-      return docRef;
+      console.log("SUCCESS"+ref.id);
+      navigate('/');
     } else {
       console.log(grpNameError);
       console.log(regNumError);
       console.log(grpError);
       console.log(regNoPatternError);
+      alert(grpNameError+"\n"+regNumError+"\n"+grpError+"\n"+regNoPatternError);
     }
   }
 
@@ -233,10 +313,10 @@ function Register() {
 
   const checkAllFeildsGroup=(groupName, groupMembersName, faculty, password, groupRegNo,tpno)=>{
     if(groupName=="" || groupMembersName.length<4 || faculty=="" || password=="" || groupRegNo.length<4 || tpno==""){
-      setGroupFeildMissingError("All Feilds Must be required");
+      return false;
     }
     else{
-      setGroupFeildMissingError("");
+      return true;
     }
   }
 

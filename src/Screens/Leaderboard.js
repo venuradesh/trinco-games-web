@@ -23,7 +23,6 @@ function Leaderboard() {
     const q = query(collection(db, "single_user"),orderBy("points","desc"));
     const user = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        console.log(doc.data().points);
         setPointDetails((prev) => [...prev, doc.data()])
       });
     });
@@ -31,21 +30,23 @@ function Leaderboard() {
     const q1 = query(collection(db, "group"),orderBy("points","desc"));
     const user1 = onSnapshot(q1, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        console.log(doc.data().points);
         setPointDetails((prev) => [...prev, doc.data()])
       });
     });
   },[]);
   if(typeof(pointDetails[0]) != "undefined"){
-    for(let i=0;i<pointDetails.length-1;i++){
-      if(pointDetails[i].points>pointDetails[i+1].points){
-        let temp=pointDetails[i].points;
-        pointDetails[i].points=pointDetails[i+1].points;
-        pointDetails[i+1].points=temp;
+    for(let i=0;i<pointDetails.length;i++){
+      for(let j=0;j<pointDetails.length;j++){
+        if(pointDetails[i].points>pointDetails[j].points){
+          let temp=pointDetails[i].points;
+          pointDetails[i].points=pointDetails[j].points;
+          pointDetails[j].points=temp;
+        }
       }
+      
     }
 
-    for(let i=0;i<pointDetails.length-1;i++){
+    for(let i=0;i<pointDetails.length;i++){
       
       console.log(pointDetails[i].points);
       

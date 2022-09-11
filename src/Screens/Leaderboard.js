@@ -1,12 +1,19 @@
-import React from "react";
+import React , {useEffect} from "react";
 import styled from "styled-components";
 import Image from "../assets/wallpaper3.jpg";
 
 //components
 import Header from "../Components/Header";
 import PointsTile from "../Components/PointsTile";
+import { useNavigate } from "react-router-dom";
 
 function Leaderboard() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if(window.un==""){
+      navigate("/");
+    }
+  });
   const data = [
     { name: "Venura Warnsooriya", regNo: "EUSL/TC/IS/2018/COM/03", points: "1000", dept: "FAS" },
     { name: "Samitha Prabath", regNo: "EUSL/TC/IS/2017/COM/09", points: "950", dept: "FAS" },

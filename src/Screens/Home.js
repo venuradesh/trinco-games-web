@@ -1,10 +1,17 @@
-import React from "react";
+import React ,{useEffect} from "react";
 import styled from "styled-components";
 import Header from "../Components/Header";
 import Image from "../assets/map2.jpg";
 import TaskCard from "../Components/TaskCard";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if(window.un==""){
+      navigate("/");
+    }
+  });
   return (
     <Container>
       <Header />

@@ -1,9 +1,22 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styled from "styled-components";
 import Image from "../assets/wallpaper1.jpg";
 import Login from "../Components/Login";
+import { useNavigate } from "react-router-dom";;
 
 function LandingPage() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (typeof(window.un) != "undefined"){
+      window.un="";
+    }
+    else{
+      navigate("/home");
+    }
+  });
+  
+  
   return (
     <Container>
       <div className="background-image-container"></div>

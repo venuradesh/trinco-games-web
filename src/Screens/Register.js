@@ -15,8 +15,10 @@ function Register() {
   const [nameError, setNameError] = useState("");
   const [regNumError, setRegNumError] = useState("");
   const [grpError, serGrpError] = useState("");
-
+  const [regNoPatternError, setRegNoPatternError] = useState("");
   const [grpNameError, setGrpNameError] = useState("");
+  const [singleFeildMissingError, setSingleFeildMissingError] = useState("");
+  const [groupFeildMissingError, setGroupFeildMissingError] = useState("");
 
   const onSubmitClick = (e) => {
     e.preventDefault();
@@ -26,6 +28,7 @@ function Register() {
     let groupName = "";
     let faculty = "";
     let regNo = "";
+    let tpno="";
     let groupRegNo = [];
     let groupMembersName = [];
     if (clicked === "individual") {
@@ -48,16 +51,34 @@ function Register() {
     }
     faculty = document.getElementById("faculties").value;
     password = document.getElementById("password").value;
+    tpno=document.getElementById("contact-no").value;
+
+    
 
     if (clicked === "individual") {
-      Promise.all([addSingleUser(name, userName, faculty, password, regNo)]);
+      
+      if(checkAllFeildsSingle(name, userName, faculty, password, regNo,tpno)){
+        Promise.all([addSingleUser(name, userName, faculty, password, regNo,tpno)]);
+      }
+      else{
+        setSingleFeildMissingError("All Feilds Must be required");
+        console.log(singleFeildMissingError);
+      }
+      
     } else {
-      Promise.all([addGroup(groupName, groupMembersName, faculty, password, groupRegNo)]);
+      if(checkAllFeildsGroup(groupName, groupMembersName, faculty, password, groupRegNo,tpno)){
+        Promise.all([addGroup(groupName, groupMembersName, faculty, password, groupRegNo,tpno)]);
+      }
+      else{
+        setGroupFeildMissingError("All Feilds Must be required");
+        console.log(groupFeildMissingError);
+      }
+      
     }
   };
 
-  function addSingleUser(name, userName, faculty, password, regNo) {
-    if (nameError == "" && regNumError == "" && grpError == "") {
+  function addSingleUser(name, userName, faculty, password, regNo,tpno) {
+    if (nameError == "" && regNumError == "" && grpError == "" && regNoPatternError=="") {
       const ref = doc(collection(db, "single_user"));
       const docRef = addDoc(collection(db, "single_user"), {
         name: name,
@@ -65,6 +86,8 @@ function Register() {
         faculty: faculty,
         password: password,
         regNo: regNo,
+        tpNo:tpno,
+        points:0,
         key: ref.id,
       });
       console.log("sucsses" + ref.id);
@@ -73,6 +96,7 @@ function Register() {
       console.log(nameError);
       console.log(regNumError);
       console.log(grpError);
+      console.log(regNoPatternError);
     }
   }
 
@@ -93,8 +117,10 @@ function Register() {
     }
   };
   const checkRegNumber = (e) => {
+  
     let t = true;
     let regNo = e.target.value;
+    validRegNo(regNo);
     let q = query(collection(db, "single_user"));
     let user = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
@@ -113,6 +139,7 @@ function Register() {
   const checkGrpError = (e) => {
     let t = true;
     let regNo = e.target.value;
+    validRegNo(regNo);
     console.log(regNo);
     const q = query(collection(db, "group"));
     const user = onSnapshot(q, (querySnapshot) => {
@@ -128,10 +155,10 @@ function Register() {
     }
   };
 
-  function addGroup(groupName, groupMembersName, faculty, password, groupRegNo) {
+  function addGroup(groupName, groupMembersName, faculty, password, groupRegNo,tpno) {
     const ref = doc(collection(db, "group"));
 
-    if (grpNameError == "" && regNumError == "" && grpError == "") {
+    if (grpNameError == "" && regNumError == "" && grpError == "" && regNoPatternError=="") {
       const docRef = addDoc(collection(db, "group"), {
         groupName: groupName,
         groupMember1: groupMembersName[0],
@@ -144,6 +171,8 @@ function Register() {
         groupRegNo2: groupRegNo[1],
         groupRegNo3: groupRegNo[2],
         groupRegNo4: groupRegNo[3],
+        tpNo:tpno,
+        points:0,
         key: ref.id,
       });
       console.log(ref.id);
@@ -152,6 +181,7 @@ function Register() {
       console.log(grpNameError);
       console.log(regNumError);
       console.log(grpError);
+      console.log(regNoPatternError);
     }
   }
 
@@ -171,6 +201,35 @@ function Register() {
       setGrpNameError("");
     }
   };
+
+
+  const validRegNo=(regNo)=>{
+    const pattern=new RegExp('^EUSL/TC/IS/+[0-9]{4}/(COM|PS|SM|MS|CS)/[0-9]{2,3}');
+    if(pattern.test(regNo)){
+      setRegNoPatternError("");
+    }
+    else{
+      setRegNoPatternError("Invalid Format Of Registration Number");
+    }
+  }
+
+  const checkAllFeildsSingle=(name, userName, faculty, password, regNo,tpno) =>{
+    if(name=="" || userName=="" || faculty=="" || password=="" || regNo=="" || tpno==""){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+
+  const checkAllFeildsGroup=(groupName, groupMembersName, faculty, password, groupRegNo,tpno)=>{
+    if(groupName=="" || groupMembersName.length<4 || faculty=="" || password=="" || groupRegNo.length<4 || tpno==""){
+      setGroupFeildMissingError("All Feilds Must be required");
+    }
+    else{
+      setGroupFeildMissingError("");
+    }
+  }
 
   return (
     <Container>

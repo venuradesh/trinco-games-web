@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
@@ -8,9 +8,16 @@ import {db} from "../Firebase/firebase";
 //components
 import InputFeild from "./InputFeild";
 
+
 function Login() {
   const navigate = useNavigate();
   const [clicked, setClicked] = useState("individual");
+
+  useEffect(() => {
+    if(window.un!==""){
+      navigate("/home");
+    }
+  });
 
   const onIndividualClick = () => {
     setClicked("individual");
@@ -38,7 +45,8 @@ function Login() {
     const user = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
         if(doc.data().password==password && doc.data().userName==name){
-
+          window.un=name;
+          navigate("/home");
           console.log('go to dashboard');
         }
         else{
@@ -57,6 +65,8 @@ function Login() {
       querySnapshot.forEach((doc) => {
         if(doc.data().password==password && doc.data().groupName==name){
           console.log('go to dashboard');
+          window.un=name;
+          navigate("/home");
         }
         else{
           console.log('invalid login');
@@ -91,7 +101,6 @@ function Login() {
     </Container>
   );
 }
-
 export default Login;
 const Container = styled.div`
   width: 350px;

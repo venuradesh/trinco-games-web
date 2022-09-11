@@ -1,24 +1,38 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import Hamburger from "../assets/square.png";
 
 function Header() {
+  const navigate = useNavigate();
   const [hamClicked, setHamClicked] = useState(false);
 
   return (
     <Container>
       <div className="logo">Trinco Games</div>
       <div className="items">
-        <div className="item">Home</div>
-        <div className="item">Leaderboard</div>
-        <div className="item">Profile</div>
+        <div className="item" onClick={() => navigate("/home")}>
+          Home
+        </div>
+        <div className="item" onClick={() => navigate("/leaderboard")}>
+          Leaderboard
+        </div>
+        <div className="item" onClick={() => navigate("/profile")}>
+          Profile
+        </div>
       </div>
       <div className="hamburger">
         <img src={Hamburger} alt="hamburger" onClick={() => (hamClicked ? setHamClicked(false) : setHamClicked(true))} />
         <div className={`items-ham ${hamClicked ? "active" : ""}`}>
-          <div className="item">Home</div>
-          <div className="item">Leaderboard</div>
-          <div className="item">Profile</div>
+          <div className="item" onClick={() => navigate("/home")}>
+            Home
+          </div>
+          <div className="item" onClick={() => navigate("/leaderboard")}>
+            Leaderboard
+          </div>
+          <div className="item" onClick={() => navigate("/profile")}>
+            Profile
+          </div>
         </div>
       </div>
     </Container>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 //screens
@@ -14,6 +14,17 @@ import Task4 from "./Screens/Task4";
 import Task5 from "./Screens/Task5";
 
 function App() {
+  const [imageNumber, setImageNumber] = useState(0);
+
+  useEffect(() => {
+    if (typeof window.randomNumber !== "undefined") {
+      setImageNumber(window.randomNumber);
+    } else {
+      window.randomNumber = Math.floor(Math.random() * 10) + 1;
+      setImageNumber(window.randomNumber);
+    }
+  });
+
   return (
     <Router>
       <Routes>
@@ -22,7 +33,7 @@ function App() {
         <Route exact path="/home" element={<Home />} />
         <Route exact path="/leaderboard" element={<Leaderboard />} />
         <Route exact path="/profile" element={<Profile />} />
-        <Route exact path="/task1" element={<Task1 />} />
+        <Route exact path="/task1" element={<Task1 randomNumber={imageNumber} />} />
         <Route exact path="/task2" element={<Task2 />} />
         <Route exact path="/task3" element={<Task3 />} />
         <Route exact path="/task4" element={<Task4 />} />

@@ -20,6 +20,9 @@ function Header() {
         <div className="item" onClick={() => navigate("/profile")}>
           Profile
         </div>
+        <div className="item" onClick={() => navigate("/")}>
+          Logout
+        </div>
       </div>
       <div className="hamburger">
         <img src={Hamburger} alt="hamburger" onClick={() => (hamClicked ? setHamClicked(false) : setHamClicked(true))} />
@@ -32,6 +35,9 @@ function Header() {
           </div>
           <div className="item" onClick={() => navigate("/profile")}>
             Profile
+          </div>
+          <div className="item" onClick={() => navigate("/")}>
+            Logout
           </div>
         </div>
       </div>

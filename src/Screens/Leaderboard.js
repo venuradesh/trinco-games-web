@@ -38,9 +38,9 @@ function Leaderboard() {
     for(let i=0;i<pointDetails.length;i++){
       for(let j=0;j<pointDetails.length;j++){
         if(pointDetails[i].points>pointDetails[j].points){
-          let temp=pointDetails[i].points;
-          pointDetails[i].points=pointDetails[j].points;
-          pointDetails[j].points=temp;
+          let temp=pointDetails[i];
+          pointDetails[i]=pointDetails[j];
+          pointDetails[j]=temp;
         }
       }
       
@@ -64,7 +64,7 @@ function Leaderboard() {
             <div className="content">
               <div className="profile-pic">V</div>
               <div className="name-container">
-                <div className="name">{typeof(pointDetails[0]) != "undefined"?(typeof(pointDetails[0].name) != "undefined"?pointDetails[0].name:pointDetails[0].groupName):""}</div>
+                <div className="name">{typeof(pointDetails[0]) != "undefined"?pointDetails[0].name:""}</div>
                 <div className="reg-no">{typeof(pointDetails[0]) != "undefined"?(typeof(pointDetails[0].regNo) != "undefined"?pointDetails[0].regNo:"Group"):""}</div>
               </div>
               <div className="points-taken">
@@ -75,7 +75,7 @@ function Leaderboard() {
           </div>
           <div className="other-places">
             {pointDetails.map((data, index) => (
-              <>{index === 0 ? "" : <PointsTile name={typeof(pointDetails[0]) != "undefined"?(typeof(pointDetails[0].name) != "undefined"?data.name:data.groupName):""} regNo={typeof(pointDetails[0]) != "undefined"?(typeof(pointDetails[0].regNo) != "undefined"?data.regNo:"Group"):""} points={typeof(pointDetails[0]) != "undefined"?data.points:""} rank={index + 1} dept={typeof(pointDetails[0]) != "undefined"?data.faculty:""} />}</>
+              <>{index === 0 ? "" : <PointsTile name={typeof(data) != "undefined"?data.name:""} regNo={typeof(data) != "undefined"?(typeof(data.regNo) != "undefined"?data.regNo:"Group"):""} points={typeof(data) != "undefined"?data.points:""} rank={index + 1} dept={typeof(data) != "undefined"?data.faculty:""} />}</>
             ))}
           </div>
         </div>

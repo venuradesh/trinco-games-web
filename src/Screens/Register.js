@@ -248,7 +248,7 @@ function Register() {
 
     if (grpNameError == "" && regNumError == "" && grpError == "" && regNoPatternError=="") {
       const docRef = addDoc(collection(db, "group"), {
-        groupName: groupName,
+        name: groupName,
         groupMember1: groupMembersName[0],
         groupMember2: groupMembersName[1],
         groupMember3: groupMembersName[2],

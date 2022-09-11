@@ -24,6 +24,7 @@ function Login() {
 
   const onSubmitClick=(e)=>{
     e.preventDefault();
+    
     if(clicked=="individual"){
         singleUserLogin()
     }
@@ -34,6 +35,7 @@ function Login() {
   }
 
   const singleUserLogin=()=>{
+    console.log("hello");
     let name=document.getElementById('username').value;
     let password=document.getElementById('password').value;
     const q = query(collection(db, "single_user"));
@@ -45,7 +47,7 @@ function Login() {
           console.log('go to dashboard');
         }
         else{
-          console.log('invalid login');
+          alert('invalid login');
         }
         
       });
@@ -58,12 +60,12 @@ function Login() {
     const q = query(collection(db, "group"));
     const user = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        if(doc.data().password==password && doc.data().groupName==name){
+        if(doc.data().password==password && doc.data().name==name){
           ReactSession.set("un", name);
           navigate("/home");
         }
         else{
-          console.log('invalid login');
+          alert('invalid login');
         }
         
       });

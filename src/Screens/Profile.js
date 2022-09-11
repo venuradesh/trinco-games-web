@@ -1,8 +1,35 @@
-import React from "react";
+import React ,{useEffect,useState} from "react";
 import styled from "styled-components";
 import Header from "../Components/Header";
+import { useNavigate } from "react-router-dom";
+import { ReactSession } from 'react-client-session';
+
+import { collection, addDoc, getDocs, onSnapshot, query, where, doc, setDoc,updateDoc,orderBy } from "firebase/firestore";
+import {db} from "../Firebase/firebase";
 
 function Profile() {
+  ReactSession.setStoreType("localStorage");
+  const [userDetails,setUserDetails]=useState([]);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if(typeof(ReactSession.get("un")) == "undefined" || ReactSession.get("un") == ""){
+      navigate("/");
+    }
+    const q = query(collection(db, "single_user"),where("userName","==",ReactSession.get("un")));
+    const user = onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        setUserDetails((prev) => [...prev, doc.data()]);
+        
+      });
+    });
+
+    const q1 = query(collection(db, "group"),where("name","==",ReactSession.get("un")));
+    const user1 = onSnapshot(q1, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        setUserDetails((prev) => [...prev, doc.data()]);
+      });
+    });
+  });
   return (
     <Container>
       <Header />
@@ -10,15 +37,15 @@ function Profile() {
         <div className="profile-details-container">
           <div className="profile-pic">V</div>
           <div className="profile-details">
-            <div className="name">Venura Warnasooriya</div>
-            <div className="reg-no">EUSL/TC/IS/2018/COM/03</div>
+            <div className="name">{typeof(userDetails[0]) != "undefined"?userDetails[0].name:""}</div>
+            <div className="reg-no">{typeof(userDetails[0]) != "undefined"?userDetails[0].regNo:""}</div>
           </div>
-          <div className="faculty">FAS</div>
+          <div className="faculty">{typeof(userDetails[0]) != "undefined"?userDetails[0].faculty:""}</div>
         </div>
       </div>
       <div className="other-details">
         <div className="points">
-          You've Earned <span>1000</span> points
+          You've Earned <span>{typeof(userDetails[0]) != "undefined"?userDetails[0].points:""}</span> points
         </div>
         <div className="options">
           <div className="delete-acc">Delete Account</div>

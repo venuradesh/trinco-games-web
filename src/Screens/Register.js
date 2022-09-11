@@ -6,8 +6,8 @@ import Image from "../assets/wallpaper2.jpg";
 import InputFeild from "../Components/InputFeild";
 import Back from "../assets/undo.png";
 
-import { collection, addDoc, getDocs, onSnapshot, query, where, doc, setDoc,updateDoc } from "firebase/firestore";
-import {db} from "../Firebase/firebase";
+import { collection, addDoc, getDocs, onSnapshot, query, where, doc, setDoc, updateDoc } from "firebase/firestore";
+import { db } from "../Firebase/firebase";
 
 function Register() {
   const navigate = useNavigate();
@@ -17,133 +17,122 @@ function Register() {
   const [grpError, serGrpError] = useState("");
 
   const [grpNameError, setGrpNameError] = useState("");
-  
-  
-  const onSubmitClick =(e) => {
+
+  const onSubmitClick = (e) => {
     e.preventDefault();
-    let name="";
-    let userName="";
-    let password="";
-    let groupName="";
-    let faculty="";
-    let regNo="";
-    let groupRegNo=[];
-    let groupMembersName=[];
-    if(clicked === "individual"){
-      name=document.getElementById('full-name').value;
+    let name = "";
+    let userName = "";
+    let password = "";
+    let groupName = "";
+    let faculty = "";
+    let regNo = "";
+    let groupRegNo = [];
+    let groupMembersName = [];
+    if (clicked === "individual") {
+      name = document.getElementById("full-name").value;
 
-      regNo=(document.getElementById('reg-no').value);
-      userName=(document.getElementById('username').value);
-      
-    }
-    else{
-      groupName=(document.getElementById('group-name').value)
+      regNo = document.getElementById("reg-no").value;
+      userName = document.getElementById("username").value;
+    } else {
+      groupName = document.getElementById("group-name").value;
 
-      groupMembersName.push(document.getElementById('full-name1').value);
-      groupMembersName.push(document.getElementById('full-name2').value);
-      groupMembersName.push(document.getElementById('full-name3').value);
-      groupMembersName.push(document.getElementById('full-name3').value);
-      
-      groupRegNo.push(document.getElementById('reg-no1').value);
-      groupRegNo.push(document.getElementById('reg-no2').value);
-      groupRegNo.push(document.getElementById('reg-no3').value);
-      groupRegNo.push(document.getElementById('reg-no4').value);
-    }
-    faculty=(document.getElementById('faculties').value);
-    password=(document.getElementById('password').value);
+      groupMembersName.push(document.getElementById("full-name1").value);
+      groupMembersName.push(document.getElementById("full-name2").value);
+      groupMembersName.push(document.getElementById("full-name3").value);
+      groupMembersName.push(document.getElementById("full-name3").value);
 
-    if(clicked === "individual"){
-      Promise.all([addSingleUser(name,userName,faculty,password,regNo)]);
+      groupRegNo.push(document.getElementById("reg-no1").value);
+      groupRegNo.push(document.getElementById("reg-no2").value);
+      groupRegNo.push(document.getElementById("reg-no3").value);
+      groupRegNo.push(document.getElementById("reg-no4").value);
     }
-    else{
-      Promise.all([addGroup(groupName,groupMembersName,faculty,password,groupRegNo)]);
+    faculty = document.getElementById("faculties").value;
+    password = document.getElementById("password").value;
+
+    if (clicked === "individual") {
+      Promise.all([addSingleUser(name, userName, faculty, password, regNo)]);
+    } else {
+      Promise.all([addGroup(groupName, groupMembersName, faculty, password, groupRegNo)]);
     }
   };
 
-  function addSingleUser(name,userName,faculty,password,regNo){
-
-    if(nameError=='' && regNumError=='' && grpError==''){
-      const ref =  doc(collection(db, "single_user"));
-      const docRef= addDoc(collection(db, "single_user"), {
+  function addSingleUser(name, userName, faculty, password, regNo) {
+    if (nameError == "" && regNumError == "" && grpError == "") {
+      const ref = doc(collection(db, "single_user"));
+      const docRef = addDoc(collection(db, "single_user"), {
         name: name,
         userName: userName,
         faculty: faculty,
         password: password,
         regNo: regNo,
-        key:ref.id
+        key: ref.id,
       });
-      console.log('sucsses'+ref.id);
+      console.log("sucsses" + ref.id);
       return docRef;
-    }
-    else{
+    } else {
       console.log(nameError);
       console.log(regNumError);
       console.log(grpError);
     }
   }
 
-
-  const checkUser=(e)=>{
-    let t=true;
-    let userName=e.target.value;
+  const checkUser = (e) => {
+    let t = true;
+    let userName = e.target.value;
     let q = query(collection(db, "single_user"));
     let user = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        if(doc.data().userName==userName){
-          setNameError('user Name already added');
-          t=false;
+        if (doc.data().userName == userName) {
+          setNameError("user Name already added");
+          t = false;
         }
       });
     });
-    if(t){
-      setNameError('');
+    if (t) {
+      setNameError("");
     }
-  }
-  const checkRegNumber=(e)=>{
-    let t=true;
-    let regNo=e.target.value;
+  };
+  const checkRegNumber = (e) => {
+    let t = true;
+    let regNo = e.target.value;
     let q = query(collection(db, "single_user"));
     let user = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        
-        if(doc.data().regNo==regNo){
-          setRegNumError(regNo+' register number already added');
-          t=false;
-          
+        if (doc.data().regNo == regNo) {
+          setRegNumError(regNo + " register number already added");
+          t = false;
         }
       });
     });
-    if(t){
-      setRegNumError('');
+    if (t) {
+      setRegNumError("");
     }
     checkGrpError(e);
-  }
+  };
 
-  const checkGrpError=(e)=>{
-    let t=true;
-    let regNo=e.target.value;
+  const checkGrpError = (e) => {
+    let t = true;
+    let regNo = e.target.value;
     console.log(regNo);
     const q = query(collection(db, "group"));
     const user = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        if(doc.data().groupRegNo1==regNo || doc.data().groupRegNo2==regNo || doc.data().groupRegNo3==regNo || doc.data().groupRegNo4==regNo){
-          serGrpError(regNo+' you are already registered a in group');
-          t=false;
+        if (doc.data().groupRegNo1 == regNo || doc.data().groupRegNo2 == regNo || doc.data().groupRegNo3 == regNo || doc.data().groupRegNo4 == regNo) {
+          serGrpError(regNo + " you are already registered a in group");
+          t = false;
         }
       });
     });
-    if(t){
-      setRegNumError('');
+    if (t) {
+      setRegNumError("");
     }
-  }
+  };
 
+  function addGroup(groupName, groupMembersName, faculty, password, groupRegNo) {
+    const ref = doc(collection(db, "group"));
 
-
-  function addGroup(groupName,groupMembersName,faculty,password,groupRegNo){
-    const ref =  doc(collection(db, "group"));
-    
-    if(grpNameError=='' && regNumError=='' && grpError==''){
-      const docRef= addDoc(collection(db, "group"), {
+    if (grpNameError == "" && regNumError == "" && grpError == "") {
+      const docRef = addDoc(collection(db, "group"), {
         groupName: groupName,
         groupMember1: groupMembersName[0],
         groupMember2: groupMembersName[1],
@@ -155,39 +144,37 @@ function Register() {
         groupRegNo2: groupRegNo[1],
         groupRegNo3: groupRegNo[2],
         groupRegNo4: groupRegNo[3],
-        key: ref.id
+        key: ref.id,
       });
       console.log(ref.id);
       return docRef;
-    }
-    else{
+    } else {
       console.log(grpNameError);
       console.log(regNumError);
       console.log(grpError);
     }
   }
 
-  const checkGroup=(e)=>{
-    let t=true;
-    let groupName=e.target.value;
+  const checkGroup = (e) => {
+    let t = true;
+    let groupName = e.target.value;
     let q = query(collection(db, "group"));
     let user = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        if(doc.data().groupName==groupName){
-          setGrpNameError('group Name already added');
-          t=false;
+        if (doc.data().groupName == groupName) {
+          setGrpNameError("group Name already added");
+          t = false;
         }
       });
     });
-    if(t){
-      setGrpNameError('');
+    if (t) {
+      setGrpNameError("");
     }
-  }
-
-
+  };
 
   return (
     <Container>
+      <div className="instructions">Read Instructions</div>
       <div className="background">
         <div className="background-image"></div>
       </div>
@@ -199,38 +186,39 @@ function Register() {
         <form className="form" method="get" action="">
           <div className="title">Register</div>
           <div className="inputs">
-            {clicked === "individual" ? <InputFeild type="text" id="full-name" content="Name" checkUser={""}/> : <InputFeild type="text" id="group-name" content="Group name" checkUser={checkGroup}/>}
+            {clicked === "individual" ? <InputFeild type="text" id="full-name" content="Name" checkUser={""} /> : <InputFeild type="text" id="group-name" content="Group name" checkUser={checkGroup} />}
             <select name="faculties" id="faculties" defaultValue={"none"}>
               <option value="none" disabled hidden>
                 Select Faculty
               </option>
-              <option value="fas" >FAS</option>
+              <option value="fas">FAS</option>
               <option value="fcbs">FCBS</option>
               <option value="siddha">Siddha Unit</option>
             </select>
             {clicked === "individual" ? (
-              <InputFeild type="text" id="reg-no" content="Register Number" checkUser={checkRegNumber}/>
+              <InputFeild type="text" id="reg-no" content="Register Number" checkUser={checkRegNumber} />
             ) : (
               <>
                 <div className="member">
-                  <InputFeild type="text" id="full-name1" content="member 1 Name" checkUser={""}/>
-                  <InputFeild type="text" id="reg-no1" content="Register Number" checkUser={checkRegNumber}/>
+                  <InputFeild type="text" id="full-name1" content="member 1 Name" checkUser={""} />
+                  <InputFeild type="text" id="reg-no1" content="Register Number" checkUser={checkRegNumber} />
                 </div>
                 <div className="member">
-                  <InputFeild type="text" id="full-name2" content="member 2 Name" checkUser={""}/>
-                  <InputFeild type="text" id="reg-no2" content="Register Number" checkUser={checkRegNumber}/>
+                  <InputFeild type="text" id="full-name2" content="member 2 Name" checkUser={""} />
+                  <InputFeild type="text" id="reg-no2" content="Register Number" checkUser={checkRegNumber} />
                 </div>
                 <div className="member">
-                  <InputFeild type="text" id="full-name3" content="member 3 Name" checkUser={""}/>
-                  <InputFeild type="text" id="reg-no3" content="Register Number"checkUser={checkRegNumber} />
+                  <InputFeild type="text" id="full-name3" content="member 3 Name" checkUser={""} />
+                  <InputFeild type="text" id="reg-no3" content="Register Number" checkUser={checkRegNumber} />
                 </div>
                 <div className="member">
-                  <InputFeild type="text" id="full-name4" content="member 4 Name" checkUser={""}/>
+                  <InputFeild type="text" id="full-name4" content="member 4 Name" checkUser={""} />
                   <InputFeild type="text" id="reg-no4" content="Register Number" checkUser={checkRegNumber} />
                 </div>
               </>
             )}
-            {clicked === "individual" ? <InputFeild type="text" id="username" content="Username" checkUser={checkUser}/> : <></>}
+            {clicked === "individual" ? <InputFeild type="text" id="username" content="Username" checkUser={checkUser} /> : <></>}
+            <InputFeild type="text" id="contact-no" content="Contact Number" />
             <InputFeild type="password" id="password" content="Password" />
           </div>
           <div className="btn-container">
@@ -263,6 +251,20 @@ const Container = styled.div`
   position: relative;
   background-color: var(--white);
   z-index: 0;
+
+  .instructions {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    color: var(--theme1);
+    cursor: pointer;
+    font-weight: 300;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
 
   .back-btn {
     position: absolute;
@@ -422,6 +424,12 @@ const Container = styled.div`
   }
 
   @media only screen and (max-width: 650px) {
+    .instructions {
+      bottom: 20px;
+      left: 20px;
+      color: var(--white);
+    }
+
     .background {
       width: 80%;
     }

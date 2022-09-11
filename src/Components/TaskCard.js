@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
-function TaskCard({ day, task, desc, availability }) {
+function TaskCard({ day, task, desc, availability, index }) {
+  const navigate = useNavigate();
   return (
     <Container>
       <div className="title">{day}</div>
@@ -10,7 +12,9 @@ function TaskCard({ day, task, desc, availability }) {
       <div className="availability">
         Availability: <span>{availability}</span>
       </div>
-      <div className="btn">Enter to the Task</div>
+      <div className="btn" onClick={() => navigate(`/task${index}`)}>
+        Enter to the Task
+      </div>
       <div className="box"></div>
     </Container>
   );

@@ -93,14 +93,16 @@ const Container = styled.div`
 
     .contents {
       .name {
-        font-size: 1rem;
+        font-size: 0.9rem;
       }
 
       .dept {
         font-size: 0.8rem;
+        display: flex;
+        align-items: center;
 
         .reg-no {
-          font-size: 0.6rem;
+          font-size: 0.5rem;
         }
       }
     }

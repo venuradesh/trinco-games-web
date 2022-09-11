@@ -342,10 +342,6 @@ const Container = styled.div`
             transform: translateX(-50%) translateY(-50%);
 
             .profile-pic {
-              min-width: 40px;
-              min-height: 40px;
-              width: 40px;
-              height: 40px;
               display: none;
             }
 
@@ -354,7 +350,6 @@ const Container = styled.div`
 
               .name {
                 text-align: left;
-                font-size: 1rem;
               }
             }
 

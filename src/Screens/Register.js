@@ -8,8 +8,10 @@ import Back from "../assets/undo.png";
 
 import { collection, addDoc, getDocs, onSnapshot, query, where, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../Firebase/firebase";
+import { ReactSession } from 'react-client-session';
 
 function Register() {
+  ReactSession.setStoreType("localStorage");
   const navigate = useNavigate();
   const [clicked, setClicked] = useState("individual");
   const [nameError, setNameError] = useState("");
@@ -19,14 +21,13 @@ function Register() {
   const [grpNameError, setGrpNameError] = useState("");
   const [singleFeildMissingError, setSingleFeildMissingError] = useState("");
   const [groupFeildMissingError, setGroupFeildMissingError] = useState("");
-  useEffect(() => {
-    if (typeof(window.un) != "undefined"){
-      window.un="";
-    }
-    else{
-      navigate("/home");
-    }
-  });
+
+  // useEffect(() => {
+  //   if(typeof(ReactSession.get("un")) == "undefined" || ReactSession.get("un") == ""){
+  //     navigate("/");
+  //   }
+  // });
+  
 
   const onSubmitClick = (e) => {
     e.preventDefault();

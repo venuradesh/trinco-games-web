@@ -29,15 +29,28 @@ function Leaderboard() {
     });
 
     const q1 = query(collection(db, "group"),orderBy("points","desc"));
-    const user1 = onSnapshot(q, (querySnapshot) => {
+    const user1 = onSnapshot(q1, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
         console.log(doc.data().points);
         setPointDetails((prev) => [...prev, doc.data()])
       });
     });
   },[]);
-  
-  console.log(typeof(pointDetails[0]))
+  if(typeof(pointDetails[0]) != "undefined"){
+    for(let i=0;i<pointDetails.length-1;i++){
+      if(pointDetails[i].points>pointDetails[i+1].points){
+        let temp=pointDetails[i].points;
+        pointDetails[i].points=pointDetails[i+1].points;
+        pointDetails[i+1].points=temp;
+      }
+    }
+
+    for(let i=0;i<pointDetails.length-1;i++){
+      
+      console.log(pointDetails[i].points);
+      
+    }
+  }
   return (
     <Container>
       <Header />
@@ -50,8 +63,8 @@ function Leaderboard() {
             <div className="content">
               <div className="profile-pic">V</div>
               <div className="name-container">
-                <div className="name">{typeof(pointDetails[0]) != "undefined"?pointDetails[0].name:""}</div>
-                <div className="reg-no">{typeof(pointDetails[0]) != "undefined"?pointDetails[0].regNo:""}</div>
+                <div className="name">{typeof(pointDetails[0]) != "undefined"?(typeof(pointDetails[0].name) != "undefined"?pointDetails[0].name:pointDetails[0].groupName):""}</div>
+                <div className="reg-no">{typeof(pointDetails[0]) != "undefined"?(typeof(pointDetails[0].regNo) != "undefined"?pointDetails[0].regNo:"Group"):""}</div>
               </div>
               <div className="points-taken">
                 <span>{typeof(pointDetails[0]) != "undefined"?pointDetails[0].points:""}</span>Points
@@ -61,7 +74,7 @@ function Leaderboard() {
           </div>
           <div className="other-places">
             {pointDetails.map((data, index) => (
-              <>{index === 0 ? "" : <PointsTile name={typeof(pointDetails[0]) != "undefined"?data.name:""} regNo={typeof(pointDetails[0]) != "undefined"?data.regNo:""} points={typeof(pointDetails[0]) != "undefined"?data.points:""} rank={index + 1} dept={typeof(pointDetails[0]) != "undefined"?data.faculty:""} />}</>
+              <>{index === 0 ? "" : <PointsTile name={typeof(pointDetails[0]) != "undefined"?(typeof(pointDetails[0].name) != "undefined"?data.name:data.groupName):""} regNo={typeof(pointDetails[0]) != "undefined"?(typeof(pointDetails[0].regNo) != "undefined"?data.regNo:"Group"):""} points={typeof(pointDetails[0]) != "undefined"?data.points:""} rank={index + 1} dept={typeof(pointDetails[0]) != "undefined"?data.faculty:""} />}</>
             ))}
           </div>
         </div>

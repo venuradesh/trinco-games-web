@@ -7,7 +7,12 @@ import BackBtn from "../assets/undo-theme-color.png";
 import Point from "../assets/points.png";
 import Hand from "../assets/hand.png";
 
+import { collection, addDoc, getDocs, onSnapshot, query, where, doc, setDoc,updateDoc } from "firebase/firestore";
+import {db} from "../Firebase/firebase";
+import { ReactSession } from 'react-client-session';
+
 function Task1({ randomNumber }) {
+  const [isTaskComplete,setIsTaskComplete]=useState(false);
   const images = [
     { index: 1, image: `CampusPhotos/0.jpg` },
     { index: 2, image: `CampusPhotos/1.jpg` },
@@ -27,11 +32,37 @@ function Task1({ randomNumber }) {
 
   useEffect(() => {
     images.map((image) => {
+      if(ReactSession.get("un") == "undefined" || ReactSession.get("un") == ""){
+        navigate("/");
+      }
       if (image.index === randomNumber) {
         setImageSelected(image.image);
       }
     });
   }, []);
+
+  const onSubmitClick=()=>{
+    let link=document.getElementById("selfie-upload").value;
+    let randomNum=randomNumber;
+    let name=ReactSession.get("un");
+    
+    Promise.all([addTask(link, randomNum, name)]);
+    
+  }
+
+  const addTask=(link, randomNum, name)=>{
+    console.log(link);
+    console.log(randomNum);
+    const ref = doc(collection(db, "task1"));
+      const docRef = addDoc(collection(db, "task1"), {
+        name: name,
+        randomNum: randomNum,
+        link: link,
+        key: ref.id,
+      });
+      console.log("sucsses" + ref.id);
+      return docRef;
+  }
 
   return (
     <Container>
@@ -48,7 +79,7 @@ function Task1({ randomNumber }) {
             <InputFeild type="text" id="selfie-upload" content="Upload the Facebook link here" />
             <img src={Hand} alt="pointer" className="hand" />
           </div>
-          <div className="btn">Submit</div>
+          <div className="btn" onClick={(e)=>onSubmitClick(e)}>Submit</div>
         </div>
         <div className="instruction-container">
           <div className="desc">

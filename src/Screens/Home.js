@@ -4,14 +4,17 @@ import Header from "../Components/Header";
 import Image from "../assets/map2.jpg";
 import TaskCard from "../Components/TaskCard";
 import { useNavigate } from "react-router-dom";
+import { ReactSession } from 'react-client-session';
 
 function Home() {
+  ReactSession.setStoreType("localStorage");
   const navigate = useNavigate();
   useEffect(() => {
-    if(window.un==""){
+    if(typeof(ReactSession.get("un")) == "undefined" || ReactSession.get("un") == ""){
       navigate("/");
     }
   });
+
   return (
     <Container>
       <Header />

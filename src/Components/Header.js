@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Hamburger from "../assets/square.png";
+import { ReactSession } from 'react-client-session';
 
 function Header() {
   const navigate = useNavigate();
   const [hamClicked, setHamClicked] = useState(false);
+  ReactSession.setStoreType("localStorage");
+  const logOut=()=>{
+    ReactSession.set("un","");
 
+    navigate("/");
+  }
   return (
+    
     <Container>
       <div className="logo">Trinco Games</div>
       <div className="items">
@@ -20,7 +27,7 @@ function Header() {
         <div className="item" onClick={() => navigate("/profile")}>
           Profile
         </div>
-        <div className="item" onClick={() => navigate("/")}>
+        <div className="item" onClick={() => logOut()}>
           Logout
         </div>
       </div>
@@ -36,7 +43,7 @@ function Header() {
           <div className="item" onClick={() => navigate("/profile")}>
             Profile
           </div>
-          <div className="item" onClick={() => navigate("/")}>
+          <div className="item" onClick={() => logOut()}>
             Logout
           </div>
         </div>

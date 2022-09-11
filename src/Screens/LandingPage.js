@@ -2,14 +2,15 @@ import React, {useEffect} from "react";
 import styled from "styled-components";
 import Image from "../assets/wallpaper1.jpg";
 import Login from "../Components/Login";
-import { useNavigate } from "react-router-dom";;
+import { useNavigate } from "react-router-dom";
+import { ReactSession } from 'react-client-session';
 
 function LandingPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (typeof(window.un) != "undefined" || window.un==""){
-      window.un="";
+    if (ReactSession.get("un") == "undefined" || ReactSession.get("un") == ""){
+      //navigate("/home");
     }
     else{
       navigate("/home");

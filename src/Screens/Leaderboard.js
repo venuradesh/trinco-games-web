@@ -6,15 +6,18 @@ import Image from "../assets/wallpaper3.jpg";
 import Header from "../Components/Header";
 import PointsTile from "../Components/PointsTile";
 import { useNavigate } from "react-router-dom";
+import { ReactSession } from 'react-client-session';
 
 import { collection, addDoc, getDocs, onSnapshot, query, where, doc, setDoc,updateDoc,orderBy } from "firebase/firestore";
 import {db} from "../Firebase/firebase";
 
 function Leaderboard() {
+  ReactSession.setStoreType("localStorage");
   const navigate = useNavigate();
   const [pointDetails,setPointDetails]=useState([]);
   useEffect(() => {
-    if(window.un==""){
+
+    if(typeof(ReactSession.get("un")) == "undefined" || ReactSession.get("un") == ""){
       navigate("/");
     }
     const q = query(collection(db, "single_user"),orderBy("points","desc"));
@@ -24,20 +27,16 @@ function Leaderboard() {
         setPointDetails((prev) => [...prev, doc.data()])
       });
     });
+
+    const q1 = query(collection(db, "group"),orderBy("points","desc"));
+    const user1 = onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        console.log(doc.data().points);
+        setPointDetails((prev) => [...prev, doc.data()])
+      });
+    });
   },[]);
-  const data = [
-    { name: "Venura Warnsooriya", regNo: "EUSL/TC/IS/2018/COM/03", points: "1000", dept: "FAS" },
-    { name: "Samitha Prabath", regNo: "EUSL/TC/IS/2017/COM/09", points: "950", dept: "FAS" },
-    { name: "Samitha Prabath", regNo: "EUSL/TC/IS/2017/COM/09", points: "950", dept: "FAS" },
-    { name: "Samitha Prabath", regNo: "EUSL/TC/IS/2017/COM/09", points: "950", dept: "FAS" },
-    { name: "Samitha Prabath", regNo: "EUSL/TC/IS/2017/COM/09", points: "950", dept: "FAS" },
-    { name: "Samitha Prabath", regNo: "EUSL/TC/IS/2017/COM/09", points: "950", dept: "FAS" },
-    { name: "Samitha Prabath", regNo: "EUSL/TC/IS/2017/COM/09", points: "950", dept: "FAS" },
-    { name: "Samitha Prabath", regNo: "EUSL/TC/IS/2017/COM/09", points: "950", dept: "FAS" },
-    { name: "Samitha Prabath", regNo: "EUSL/TC/IS/2017/COM/09", points: "950", dept: "FAS" },
-    { name: "Samitha Prabath", regNo: "EUSL/TC/IS/2017/COM/09", points: "950", dept: "FAS" },
-    { name: "Samitha Prabath", regNo: "EUSL/TC/IS/2017/COM/09", points: "950", dept: "FAS" },
-  ];
+  
   console.log(typeof(pointDetails[0]))
   return (
     <Container>

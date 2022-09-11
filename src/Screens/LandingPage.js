@@ -8,7 +8,7 @@ function LandingPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (typeof(window.un) != "undefined"){
+    if (typeof(window.un) != "undefined" || window.un==""){
       window.un="";
     }
     else{

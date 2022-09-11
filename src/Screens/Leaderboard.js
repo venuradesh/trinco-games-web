@@ -1,4 +1,4 @@
-import React , {useEffect} from "react";
+import React , {useEffect, useState} from "react";
 import styled from "styled-components";
 import Image from "../assets/wallpaper3.jpg";
 
@@ -7,13 +7,24 @@ import Header from "../Components/Header";
 import PointsTile from "../Components/PointsTile";
 import { useNavigate } from "react-router-dom";
 
+import { collection, addDoc, getDocs, onSnapshot, query, where, doc, setDoc,updateDoc,orderBy } from "firebase/firestore";
+import {db} from "../Firebase/firebase";
+
 function Leaderboard() {
   const navigate = useNavigate();
+  const [pointDetails,setPointDetails]=useState([]);
   useEffect(() => {
     if(window.un==""){
       navigate("/");
     }
-  });
+    const q = query(collection(db, "single_user"),orderBy("points","desc"));
+    const user = onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        console.log(doc.data().points);
+        setPointDetails((prev) => [...prev, doc.data()])
+      });
+    });
+  },[]);
   const data = [
     { name: "Venura Warnsooriya", regNo: "EUSL/TC/IS/2018/COM/03", points: "1000", dept: "FAS" },
     { name: "Samitha Prabath", regNo: "EUSL/TC/IS/2017/COM/09", points: "950", dept: "FAS" },
@@ -27,7 +38,7 @@ function Leaderboard() {
     { name: "Samitha Prabath", regNo: "EUSL/TC/IS/2017/COM/09", points: "950", dept: "FAS" },
     { name: "Samitha Prabath", regNo: "EUSL/TC/IS/2017/COM/09", points: "950", dept: "FAS" },
   ];
-
+  console.log(typeof(pointDetails[0]))
   return (
     <Container>
       <Header />
@@ -40,18 +51,18 @@ function Leaderboard() {
             <div className="content">
               <div className="profile-pic">V</div>
               <div className="name-container">
-                <div className="name">{data[0].name}</div>
-                <div className="reg-no">{data[0].regNo}</div>
+                <div className="name">{typeof(pointDetails[0]) != "undefined"?pointDetails[0].name:""}</div>
+                <div className="reg-no">{typeof(pointDetails[0]) != "undefined"?pointDetails[0].regNo:""}</div>
               </div>
               <div className="points-taken">
-                <span>{data[0].points}</span>Points
+                <span>{typeof(pointDetails[0]) != "undefined"?pointDetails[0].points:""}</span>Points
               </div>
             </div>
-            <div className="dept">{data[0].dept}</div>
+            <div className="dept">{typeof(pointDetails[0]) != "undefined"?pointDetails[0].faculty:""}</div>
           </div>
           <div className="other-places">
-            {data.map((data, index) => (
-              <>{index === 0 ? "" : <PointsTile name={data.name} regNo={data.regNo} points={data.points} rank={index + 1} dept={data.dept} />}</>
+            {pointDetails.map((data, index) => (
+              <>{index === 0 ? "" : <PointsTile name={typeof(pointDetails[0]) != "undefined"?data.name:""} regNo={typeof(pointDetails[0]) != "undefined"?data.regNo:""} points={typeof(pointDetails[0]) != "undefined"?data.points:""} rank={index + 1} dept={typeof(pointDetails[0]) != "undefined"?data.faculty:""} />}</>
             ))}
           </div>
         </div>

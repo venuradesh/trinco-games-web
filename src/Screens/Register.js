@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
@@ -19,6 +19,14 @@ function Register() {
   const [grpNameError, setGrpNameError] = useState("");
   const [singleFeildMissingError, setSingleFeildMissingError] = useState("");
   const [groupFeildMissingError, setGroupFeildMissingError] = useState("");
+  useEffect(() => {
+    if (typeof(window.un) != "undefined"){
+      window.un="";
+    }
+    else{
+      navigate("/home");
+    }
+  });
 
   const onSubmitClick = (e) => {
     e.preventDefault();

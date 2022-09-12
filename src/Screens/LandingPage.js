@@ -7,12 +7,15 @@ import { ReactSession } from 'react-client-session';
 
 function LandingPage() {
   const navigate = useNavigate();
+  ReactSession.setStoreType("localStorage");
 
   useEffect(() => {
-    if (ReactSession.get("un") == "undefined" || ReactSession.get("un") == ""){
+    if (ReactSession.get("un") != "undefined" || ReactSession.get("un") != ""){
+      console.log(ReactSession.get("un"));
       //navigate("/home");
     }
     else{
+      //console.log("aaaa");
       navigate("/home");
     }
   });

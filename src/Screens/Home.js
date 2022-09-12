@@ -29,7 +29,7 @@ function Home() {
         <div className="tasks">
           <div className="task-list">
             <div className={`task task1 ${typeof tasklock.filter((val) => val === 1)[0] === "undefined" ? "lock" : ""}`}>
-              <TaskCard index={1} day="day 01" task="Task 01" desc={"Lorem, ipsum dolor sit amet consectetur "} availability="available" />
+              <TaskCard index={1} day="day 01" task="Task 01" desc={"Try to find the blured place"} availability="available" />
             </div>
             <div className={`task task2 ${typeof tasklock.filter((val) => val === 2)[0] === "undefined" ? "lock" : ""}`}>
               <TaskCard index={2} day="day 02" task="Task 02" desc={"Lorem, ipsum dolor sit amet consectetur "} availability="available" />

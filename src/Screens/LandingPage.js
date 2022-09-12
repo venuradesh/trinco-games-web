@@ -1,34 +1,32 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Image from "../assets/wallpaper1.jpg";
 import Login from "../Components/Login";
 import { useNavigate } from "react-router-dom";
-import { ReactSession } from 'react-client-session';
+import { ReactSession } from "react-client-session";
 
 function LandingPage() {
   const navigate = useNavigate();
   ReactSession.setStoreType("localStorage");
 
   useEffect(() => {
-    if (ReactSession.get("un") != "undefined" || ReactSession.get("un") != ""){
+    if (ReactSession.get("un") != "undefined" || ReactSession.get("un") != "") {
       console.log(ReactSession.get("un"));
       //navigate("/home");
-    }
-    else{
+    } else {
       //console.log("aaaa");
       navigate("/home");
     }
   });
-  
-  
+
   return (
     <Container>
       <div className="background-image-container"></div>
       <div className="background-tint"></div>
       <div className="decoration-box"></div>
       <div className="title-container">
-        <div className="title">Trinco Games</div>
-        <div className="desc">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est, voluptatibus!</div>
+        <div className="title">Pirates of the Trinco</div>
+        <div className="desc">Fun Week Game Festival</div>
       </div>
       <Login />
       <div className="instructions">Read Instructions</div>
@@ -87,12 +85,14 @@ const Container = styled.div`
     left: 5%;
 
     .title {
+      margin-top: 10px;
       font-size: 4rem;
       font-family: var(--font-family1);
       font-weight: 800;
       color: var(--white);
       margin-bottom: 5px;
       text-transform: uppercase;
+      width: 80%;
     }
 
     .desc {

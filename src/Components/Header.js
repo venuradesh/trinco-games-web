@@ -1,22 +1,23 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Hamburger from "../assets/square.png";
-import { ReactSession } from 'react-client-session';
+import { ReactSession } from "react-client-session";
+import Logo from "../assets/logo.png";
 
 function Header() {
   const navigate = useNavigate();
   const [hamClicked, setHamClicked] = useState(false);
   ReactSession.setStoreType("localStorage");
-  const logOut=()=>{
-    ReactSession.set("un","");
-
+  const logOut = () => {
+    ReactSession.set("un", "");
     navigate("/");
-  }
+  };
   return (
-    
     <Container>
-      <div className="logo">Trinco Games</div>
+      <div className="logo">
+        <img src={Logo} alt="logo" />
+      </div>
       <div className="items">
         <div className="item" onClick={() => navigate("/home")}>
           Home
@@ -72,6 +73,10 @@ const Container = styled.div`
     font-weight: 600;
     color: var(--white);
     pointer-events: none;
+
+    img {
+      width: 100px;
+    }
   }
 
   .items {

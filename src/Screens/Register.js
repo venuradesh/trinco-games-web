@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
@@ -8,7 +8,7 @@ import Back from "../assets/undo.png";
 
 import { collection, addDoc, getDocs, onSnapshot, query, where, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../Firebase/firebase";
-import { ReactSession } from 'react-client-session';
+import { ReactSession } from "react-client-session";
 
 function Register() {
   ReactSession.setStoreType("localStorage");
@@ -27,7 +27,6 @@ function Register() {
   //     navigate("/");
   //   }
   // });
-  
 
   const onSubmitClick = (e) => {
     e.preventDefault();
@@ -37,7 +36,7 @@ function Register() {
     let groupName = "";
     let faculty = "";
     let regNo = "";
-    let tpno="";
+    let tpno = "";
     let groupRegNo = [];
     let groupMembersName = [];
     if (clicked === "individual") {
@@ -60,38 +59,29 @@ function Register() {
     }
     faculty = document.getElementById("faculties").value;
     password = document.getElementById("password").value;
-    tpno=document.getElementById("contact-no").value;
-
-    
+    tpno = document.getElementById("contact-no").value;
 
     if (clicked === "individual") {
-      
-      if(checkAllFeildsSingle(name, userName, faculty, password, regNo,tpno)){
-        Promise.all([addSingleUser(name, userName, faculty, password, regNo,tpno)]);
-       
-      }
-      else{
+      if (checkAllFeildsSingle(name, userName, faculty, password, regNo, tpno)) {
+        Promise.all([addSingleUser(name, userName, faculty, password, regNo, tpno)]);
+      } else {
         setSingleFeildMissingError("All Feilds Must be required");
         console.log(singleFeildMissingError);
         alert(singleFeildMissingError);
       }
-      
     } else {
-      if(checkAllFeildsGroup(groupName, groupMembersName, faculty, password, groupRegNo,tpno)){
-        Promise.all([addGroup(groupName, groupMembersName, faculty, password, groupRegNo,tpno)]);
-        
-      }
-      else{
+      if (checkAllFeildsGroup(groupName, groupMembersName, faculty, password, groupRegNo, tpno)) {
+        Promise.all([addGroup(groupName, groupMembersName, faculty, password, groupRegNo, tpno)]);
+      } else {
         setGroupFeildMissingError("All Feilds Must be required");
         console.log(groupFeildMissingError);
         alert(groupFeildMissingError);
       }
-      
     }
   };
 
-  function addSingleUser(name, userName, faculty, password, regNo,tpno) {
-    if (nameError == "" && regNumError == "" && grpError == "" && regNoPatternError=="") {
+  function addSingleUser(name, userName, faculty, password, regNo, tpno) {
+    if (nameError == "" && regNumError == "" && grpError == "" && regNoPatternError == "") {
       const ref = doc(collection(db, "single_user"));
       const docRef = addDoc(collection(db, "single_user"), {
         name: name,
@@ -99,18 +89,18 @@ function Register() {
         faculty: faculty,
         password: password,
         regNo: regNo,
-        tpNo:tpno,
-        points:0,
+        tpNo: tpno,
+        points: 0,
         key: ref.id,
       });
       console.log("sucsses" + ref.id);
-      navigate('/');
+      navigate("/");
     } else {
       console.log(nameError);
       console.log(regNumError);
       console.log(grpError);
       console.log(regNoPatternError);
-      alert(nameError+"\n"+regNumError+"\n"+grpError+"\n"+regNoPatternError);
+      alert(nameError + "\n" + regNumError + "\n" + grpError + "\n" + regNoPatternError);
     }
   }
 
@@ -131,11 +121,10 @@ function Register() {
     }
   };
   const checkRegNumber = (e) => {
-  
     let t = true;
 
-    if (clicked === "individual"){
-      let regNo=document.getElementById('reg-no').value;
+    if (clicked === "individual") {
+      let regNo = document.getElementById("reg-no").value;
       validRegNo(regNo);
       const q = query(collection(db, "single_user"));
       const user = onSnapshot(q, (querySnapshot) => {
@@ -149,12 +138,11 @@ function Register() {
       if (t) {
         setRegNumError("");
       }
-    }
-    else{
-      let regNo1=document.getElementById('reg-no1').value;
-      let regNo2=document.getElementById('reg-no2').value;
-      let regNo3=document.getElementById('reg-no3').value;
-      let regNo4=document.getElementById('reg-no4').value;
+    } else {
+      let regNo1 = document.getElementById("reg-no1").value;
+      let regNo2 = document.getElementById("reg-no2").value;
+      let regNo3 = document.getElementById("reg-no3").value;
+      let regNo4 = document.getElementById("reg-no4").value;
       validRegNo(regNo1);
       validRegNo(regNo2);
       validRegNo(regNo3);
@@ -165,16 +153,13 @@ function Register() {
           if (doc.data().regNo == regNo1) {
             setRegNumError(regNo1 + " register number already added");
             t = false;
-          }
-          else if (doc.data().regNo == regNo2) {
+          } else if (doc.data().regNo == regNo2) {
             setRegNumError(regNo2 + " register number already added");
             t = false;
-          }
-          else if (doc.data().regNo == regNo3) {
+          } else if (doc.data().regNo == regNo3) {
             setRegNumError(regNo3 + " register number already added");
             t = false;
-          }
-          else if (doc.data().regNo == regNo4) {
+          } else if (doc.data().regNo == regNo4) {
             setRegNumError(regNo4 + " register number already added");
             t = false;
           }
@@ -190,8 +175,8 @@ function Register() {
 
   const checkGrpError = () => {
     let t = true;
-    if (clicked === "individual"){
-      let regNo=document.getElementById('reg-no').value;
+    if (clicked === "individual") {
+      let regNo = document.getElementById("reg-no").value;
       validRegNo(regNo);
       const q = query(collection(db, "group"));
       const user = onSnapshot(q, (querySnapshot) => {
@@ -205,12 +190,11 @@ function Register() {
       if (t) {
         serGrpError("");
       }
-    }
-    else{
-      let regNo1=document.getElementById('reg-no1').value;
-      let regNo2=document.getElementById('reg-no2').value;
-      let regNo3=document.getElementById('reg-no3').value;
-      let regNo4=document.getElementById('reg-no4').value;
+    } else {
+      let regNo1 = document.getElementById("reg-no1").value;
+      let regNo2 = document.getElementById("reg-no2").value;
+      let regNo3 = document.getElementById("reg-no3").value;
+      let regNo4 = document.getElementById("reg-no4").value;
       validRegNo(regNo1);
       validRegNo(regNo2);
       validRegNo(regNo3);
@@ -221,16 +205,13 @@ function Register() {
           if (doc.data().groupRegNo1 == regNo1 || doc.data().groupRegNo2 == regNo1 || doc.data().groupRegNo3 == regNo1 || doc.data().groupRegNo4 == regNo1) {
             serGrpError(regNo1 + " you are already registered a in group");
             t = false;
-          }
-          else if (doc.data().groupRegNo1 == regNo2 || doc.data().groupRegNo2 == regNo2 || doc.data().groupRegNo3 == regNo2 || doc.data().groupRegNo4 == regNo2) {
+          } else if (doc.data().groupRegNo1 == regNo2 || doc.data().groupRegNo2 == regNo2 || doc.data().groupRegNo3 == regNo2 || doc.data().groupRegNo4 == regNo2) {
             serGrpError(regNo2 + " you are already registered a in group");
             t = false;
-          }
-          else if (doc.data().groupRegNo1 == regNo3 || doc.data().groupRegNo2 == regNo3 || doc.data().groupRegNo3 == regNo3 || doc.data().groupRegNo4 == regNo3) {
+          } else if (doc.data().groupRegNo1 == regNo3 || doc.data().groupRegNo2 == regNo3 || doc.data().groupRegNo3 == regNo3 || doc.data().groupRegNo4 == regNo3) {
             serGrpError(regNo3 + " you are already registered a in group");
             t = false;
-          }
-          else if (doc.data().groupRegNo1 == regNo4 || doc.data().groupRegNo2 == regNo4 || doc.data().groupRegNo3 == regNo4 || doc.data().groupRegNo4 == regNo4) {
+          } else if (doc.data().groupRegNo1 == regNo4 || doc.data().groupRegNo2 == regNo4 || doc.data().groupRegNo3 == regNo4 || doc.data().groupRegNo4 == regNo4) {
             serGrpError(regNo4 + " you are already registered a in group");
             t = false;
           }
@@ -240,13 +221,12 @@ function Register() {
         serGrpError("");
       }
     }
-    
   };
 
-  function addGroup(groupName, groupMembersName, faculty, password, groupRegNo,tpno) {
+  function addGroup(groupName, groupMembersName, faculty, password, groupRegNo, tpno) {
     const ref = doc(collection(db, "group"));
 
-    if (grpNameError == "" && regNumError == "" && grpError == "" && regNoPatternError=="") {
+    if (grpNameError == "" && regNumError == "" && grpError == "" && regNoPatternError == "") {
       const docRef = addDoc(collection(db, "group"), {
         name: groupName,
         groupMember1: groupMembersName[0],
@@ -259,18 +239,18 @@ function Register() {
         groupRegNo2: groupRegNo[1],
         groupRegNo3: groupRegNo[2],
         groupRegNo4: groupRegNo[3],
-        tpNo:tpno,
-        points:0,
+        tpNo: tpno,
+        points: 0,
         key: ref.id,
       });
-      console.log("SUCCESS"+ref.id);
-      navigate('/');
+      console.log("SUCCESS" + ref.id);
+      navigate("/");
     } else {
       console.log(grpNameError);
       console.log(regNumError);
       console.log(grpError);
       console.log(regNoPatternError);
-      alert(grpNameError+"\n"+regNumError+"\n"+grpError+"\n"+regNoPatternError);
+      alert(grpNameError + "\n" + regNumError + "\n" + grpError + "\n" + regNoPatternError);
     }
   }
 
@@ -291,34 +271,30 @@ function Register() {
     }
   };
 
-
-  const validRegNo=(regNo)=>{
-    const pattern=new RegExp('^EUSL/TC/IS/+[0-9]{4}/(COM|PS|SM|MS|CS)/[0-9]{2,3}');
-    if(pattern.test(regNo)){
+  const validRegNo = (regNo) => {
+    const pattern = new RegExp("^EUSL/TC/IS/+[0-9]{4}/(COM|PS|SM|MS|CS)/[0-9]{2,3}");
+    if (pattern.test(regNo)) {
       setRegNoPatternError("");
-    }
-    else{
+    } else {
       setRegNoPatternError("Invalid Format Of Registration Number");
     }
-  }
+  };
 
-  const checkAllFeildsSingle=(name, userName, faculty, password, regNo,tpno) =>{
-    if(name=="" || userName=="" || faculty=="" || password=="" || regNo=="" || tpno==""){
+  const checkAllFeildsSingle = (name, userName, faculty, password, regNo, tpno) => {
+    if (name == "" || userName == "" || faculty == "" || password == "" || regNo == "" || tpno == "") {
       return false;
-    }
-    else{
+    } else {
       return true;
     }
-  }
+  };
 
-  const checkAllFeildsGroup=(groupName, groupMembersName, faculty, password, groupRegNo,tpno)=>{
-    if(groupName=="" || groupMembersName.length<4 || faculty=="" || password=="" || groupRegNo.length<4 || tpno==""){
+  const checkAllFeildsGroup = (groupName, groupMembersName, faculty, password, groupRegNo, tpno) => {
+    if (groupName == "" || groupMembersName.length < 4 || faculty == "" || password == "" || groupRegNo.length < 4 || tpno == "") {
       return false;
-    }
-    else{
+    } else {
       return true;
     }
-  }
+  };
 
   return (
     <Container>
@@ -334,7 +310,17 @@ function Register() {
         <form className="form" method="get" action="">
           <div className="title">Register</div>
           <div className="inputs">
-            {clicked === "individual" ? <InputFeild type="text" id="full-name" content="Name" checkUser={""} /> : <InputFeild type="text" id="group-name" content="Group name" checkUser={checkGroup} />}
+            {clicked === "individual" ? (
+              <>
+                <InputFeild type="text" id="full-name" content="Name" checkUser={""} />
+                {nameError ? <div className="error">*{nameError}</div> : <></>}
+              </>
+            ) : (
+              <>
+                <InputFeild type="text" id="group-name" content="Group name" checkUser={checkGroup} />
+                {grpNameError ? <div className="error">*{grpNameError}</div> : <></>}
+              </>
+            )}
             <select name="faculties" id="faculties" defaultValue={"none"}>
               <option value="none" disabled hidden>
                 Select Faculty
@@ -344,7 +330,10 @@ function Register() {
               <option value="siddha">Siddha Unit</option>
             </select>
             {clicked === "individual" ? (
-              <InputFeild type="text" id="reg-no" content="Register Number" checkUser={checkRegNumber} />
+              <>
+                <InputFeild type="text" id="reg-no" content="Register Number" checkUser={checkRegNumber} />
+                {regNoPatternError ? <div className="error">*{regNoPatternError}</div> : <></>}
+              </>
             ) : (
               <>
                 <div className="member">
@@ -363,6 +352,7 @@ function Register() {
                   <InputFeild type="text" id="full-name4" content="member 4 Name" checkUser={""} />
                   <InputFeild type="text" id="reg-no4" content="Register Number" checkUser={checkRegNumber} />
                 </div>
+                {regNoPatternError ? <div className="error">*{regNoPatternError}</div> : <></>}
               </>
             )}
             {clicked === "individual" ? <InputFeild type="text" id="username" content="Username" checkUser={checkUser} /> : <></>}
@@ -399,6 +389,17 @@ const Container = styled.div`
   position: relative;
   background-color: var(--white);
   z-index: 0;
+
+  .error {
+    width: 100%;
+    font-size: 0.7rem;
+    color: var(--red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    font-weight: 100;
+  }
 
   .instructions {
     position: absolute;

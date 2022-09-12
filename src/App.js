@@ -17,11 +17,11 @@ function App() {
   const [imageNumber, setImageNumber] = useState(0);
 
   useEffect(() => {
-    if (typeof window.randomNumber !== "undefined") {
-      setImageNumber(window.randomNumber);
+    if (localStorage.getItem("randomNumber") !== null) {
+      setImageNumber(localStorage.getItem("randomNumber"));
     } else {
-      window.randomNumber = Math.floor(Math.random() * 10) + 1;
-      setImageNumber(window.randomNumber);
+      localStorage.setItem("randomNumber", Math.floor(Math.random() * 10) + 1);
+      setImageNumber(localStorage.getItem("randomNumber"));
     }
   });
 

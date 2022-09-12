@@ -1,11 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Image from "../assets/wallpaper1.jpg";
 import Login from "../Components/Login";
 import { useNavigate } from "react-router-dom";
 import { ReactSession } from "react-client-session";
+import Cross from "../assets/cross.png";
+import Point from "../assets/points.png";
 
 function LandingPage() {
+  const data = ["Users only can register either individual or group only.(individual player cannot be a member of any group)", "When you register please use your full registration number.(EX:EUSL/TC/IS/......)", "If you are a individual player use a unique name for your username.", "If you are a group please use a unique group name.", "Every task will be awarded by points.according to that points leaderboard will be updated every day.", "At the end of the 5th day user or team who gets the highest marks will be the winner.", "dont use any vpn to log into the game."];
+  const [insClicked, setInsClicked] = useState(false);
   const navigate = useNavigate();
   ReactSession.setStoreType("localStorage");
 
@@ -21,6 +25,28 @@ function LandingPage() {
 
   return (
     <Container>
+      {insClicked ? (
+        <div className="insContainer">
+          <div className="insBox">
+            <div className="instructions-rules">
+              <div className="title-content">
+                Instructions & Rules
+                <img src={Cross} alt="close" className="close-btn" onClick={() => setInsClicked(false)} />
+              </div>
+              <div className="points">
+                {data.map((data, key) => (
+                  <div className="point-container">
+                    <img src={Point} alt="points" key={key} />
+                    <div className="point">{data}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
       <div className="background-image-container"></div>
       <div className="background-tint"></div>
       <div className="decoration-box"></div>
@@ -29,7 +55,9 @@ function LandingPage() {
         <div className="desc">Fun Week Game Festival</div>
       </div>
       <Login />
-      <div className="instructions">Read Instructions</div>
+      <div className="instructions" onClick={() => setInsClicked(true)}>
+        Read Instructions
+      </div>
     </Container>
   );
 }
@@ -42,6 +70,67 @@ const Container = styled.div`
   position: relative;
   overflow: hidden;
   z-index: 0;
+
+  .insContainer {
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    position: absolute;
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .insBox {
+      width: 60%;
+      height: max-content;
+      max-height: 80%;
+      overflow: hidden;
+      padding: 20px;
+      overflow-y: auto;
+      background-color: var(--white);
+      box-shadow: 0 0 10px 0 var(--gray);
+      &::-webkit-scrollbar {
+        width: 5px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: var(--theme1);
+      }
+      .instructions-rules {
+        .title-content {
+          font-size: 1.5rem;
+          font-weight: 600;
+          margin-bottom: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .close-btn {
+            width: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            &:hover {
+              transform: scale(1.05);
+            }
+          }
+        }
+        .points {
+          margin-left: 0px;
+          .point-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            margin-left: 20px;
+            img {
+              width: 20px;
+            }
+            .point {
+              font-weight: 100;
+              margin-left: 20px;
+            }
+          }
+        }
+      }
+    }
+  }
 
   .background-image-container {
     width: 100%;

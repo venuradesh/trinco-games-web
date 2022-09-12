@@ -1,19 +1,19 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { ReactSession } from 'react-client-session';
+import { ReactSession } from "react-client-session";
 
-import { collection, addDoc, getDocs, onSnapshot, query, where, doc, setDoc,updateDoc } from "firebase/firestore";
-import {db} from "../Firebase/firebase";
+import { collection, addDoc, getDocs, onSnapshot, query, where, doc, setDoc, updateDoc } from "firebase/firestore";
+import { db } from "../Firebase/firebase";
 
 //components
 import InputFeild from "./InputFeild";
-
 
 function Login() {
   ReactSession.setStoreType("localStorage");
   const navigate = useNavigate();
   const [clicked, setClicked] = useState("individual");
+  const [error, setError] = useState("");
   const onIndividualClick = () => {
     setClicked("individual");
   };
@@ -22,55 +22,48 @@ function Login() {
     setClicked("group");
   };
 
-  const onSubmitClick=(e)=>{
+  const onSubmitClick = (e) => {
     e.preventDefault();
-    
-    if(clicked=="individual"){
-        singleUserLogin()
-    }
-    else{
-      groupUserLogin()
-    }
 
-  }
+    if (clicked == "individual") {
+      singleUserLogin();
+    } else {
+      groupUserLogin();
+    }
+  };
 
-  const singleUserLogin=()=>{
-    console.log("hello");
-    let name=document.getElementById('username').value;
-    let password=document.getElementById('password').value;
+  const singleUserLogin = () => {
+    let name = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
     const q = query(collection(db, "single_user"));
     const user = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        if(doc.data().password==password && doc.data().userName==name){
+        if (doc.data().password == password && doc.data().userName == name) {
           ReactSession.set("un", name);
           navigate("/home");
-          console.log('go to dashboard');
+          console.log("go to dashboard");
+        } else {
+          alert("invalid login");
         }
-        else{
-          alert('invalid login');
-        }
-        
       });
     });
-  }
+  };
 
-  const groupUserLogin=()=>{
-    let name=document.getElementById('username').value;
-    let password=document.getElementById('password').value;
+  const groupUserLogin = () => {
+    let name = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
     const q = query(collection(db, "group"));
     const user = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        if(doc.data().password==password && doc.data().name==name){
+        if (doc.data().password == password && doc.data().name == name) {
           ReactSession.set("un", name);
           navigate("/home");
+        } else {
+          alert("invalid login");
         }
-        else{
-          alert('invalid login');
-        }
-        
       });
     });
-  }
+  };
 
   return (
     <Container>
@@ -85,9 +78,12 @@ function Login() {
       {clicked === "individual" ? <InputFeild type="text" id="username" content="user name" /> : <InputFeild type="text" id="username" content="group name" />}
       <InputFeild type="password" id="password" content="password" />
       <div className="btn-container">
-        <div className="submit btn" onClick={(e)=>onSubmitClick(e)}>Submit</div>
+        <div className="submit btn" onClick={(e) => onSubmitClick(e)}>
+          Submit
+        </div>
         <div className="reset btn">Reset</div>
       </div>
+      {error ? <div className="error-container">*{error}</div> : <></>}
       <div className="create-account">
         Don't have an accont?
         <div className="create-acc-btn" onClick={() => navigate("/register")}>
@@ -162,6 +158,17 @@ const Container = styled.div`
     .reset {
       background-color: var(--red);
     }
+  }
+
+  .error-container {
+    width: 100%;
+    font-size: 1rem;
+    color: var(--red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    font-weight: 100;
   }
 
   .create-account {

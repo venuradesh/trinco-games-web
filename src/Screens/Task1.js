@@ -6,13 +6,14 @@ import Image from "../assets/wallpaper1.jpg";
 import BackBtn from "../assets/undo-theme-color.png";
 import Point from "../assets/points.png";
 import Hand from "../assets/hand.png";
+import Complete from "../assets/checked.png";
 
-import { collection, addDoc, getDocs, onSnapshot, query, where, doc, setDoc,updateDoc } from "firebase/firestore";
-import {db} from "../Firebase/firebase";
-import { ReactSession } from 'react-client-session';
+import { collection, addDoc, getDocs, onSnapshot, query, where, doc, setDoc, updateDoc } from "firebase/firestore";
+import { db } from "../Firebase/firebase";
+import { ReactSession } from "react-client-session";
 
 function Task1({ randomNumber }) {
-  const [isTaskComplete,setIsTaskComplete]=useState(false);
+  const [isTaskComplete, setIsTaskComplete] = useState(false);
   const images = [
     { index: 1, image: `CampusPhotos/0.jpg` },
     { index: 2, image: `CampusPhotos/1.jpg` },
@@ -32,40 +33,54 @@ function Task1({ randomNumber }) {
 
   useEffect(() => {
     images.map((image) => {
-      if(ReactSession.get("un") == "undefined" || ReactSession.get("un") == ""){
+      if (ReactSession.get("un") == "undefined" || ReactSession.get("un") == "") {
         navigate("/");
       }
-      if (image.index === randomNumber) {
+      if (image.index === parseInt(randomNumber)) {
         setImageSelected(image.image);
       }
     });
   }, []);
 
-  const onSubmitClick=()=>{
-    let link=document.getElementById("selfie-upload").value;
-    let randomNum=randomNumber;
-    let name=ReactSession.get("un");
-    
-    Promise.all([addTask(link, randomNum, name)]);
-    
-  }
+  const onSubmitClick = () => {
+    let link = document.getElementById("selfie-upload").value;
+    let randomNum = parseInt(randomNumber);
+    let name = ReactSession.get("un");
 
-  const addTask=(link, randomNum, name)=>{
+    Promise.all([addTask(link, randomNum, name)]);
+  };
+
+  const addTask = (link, randomNum, name) => {
     console.log(link);
     console.log(randomNum);
     const ref = doc(collection(db, "task1"));
-      const docRef = addDoc(collection(db, "task1"), {
-        name: name,
-        randomNum: randomNum,
-        link: link,
-        key: ref.id,
-      });
-      console.log("sucsses" + ref.id);
-      return docRef;
-  }
+    const docRef = addDoc(collection(db, "task1"), {
+      name: name,
+      randomNum: randomNum,
+      link: link,
+      key: ref.id,
+    });
+    const time = setTimeout(() => {
+      setIsTaskComplete(false);
+    }, 1000);
+    setIsTaskComplete(true);
+    console.log("out");
+    console.log("sucsses" + ref.id);
+    return docRef;
+  };
 
   return (
     <Container>
+      {isTaskComplete ? (
+        <div className="job-complete">
+          <div className="task-complete-content">
+            <img src={Complete} alt="complete-btn" className="complete" />
+            Task Complete!
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
       <div className="title">
         <div className="back-btn" onClick={() => navigate("/home")}>
           <img src={BackBtn} alt="back" className="back" />
@@ -79,7 +94,9 @@ function Task1({ randomNumber }) {
             <InputFeild type="text" id="selfie-upload" content="Upload the Facebook link here" />
             <img src={Hand} alt="pointer" className="hand" />
           </div>
-          <div className="btn" onClick={(e)=>onSubmitClick(e)}>Submit</div>
+          <div className="btn" onClick={(e) => onSubmitClick(e)}>
+            Submit
+          </div>
         </div>
         <div className="instruction-container">
           <div className="desc">
@@ -111,6 +128,37 @@ const Container = styled.div`
   position: relative;
   z-index: 0;
   padding: 0 30px;
+
+  .job-complete {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(8px);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+
+    .task-complete-content {
+      width: 300px;
+      height: 80px;
+      background-color: var(--theme1);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      column-gap: 30px;
+      border-radius: 12px;
+      pointer-events: none;
+
+      .complete {
+        width: 30px;
+      }
+    }
+  }
 
   .title {
     position: fixed;

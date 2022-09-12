@@ -1,18 +1,23 @@
-import React ,{useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../Components/Header";
 import Image from "../assets/map2.jpg";
 import TaskCard from "../Components/TaskCard";
 import { useNavigate } from "react-router-dom";
-import { ReactSession } from 'react-client-session';
+import { ReactSession } from "react-client-session";
 
 function Home() {
+  const [tasklock, setTaskLock] = useState([1]);
   ReactSession.setStoreType("localStorage");
   const navigate = useNavigate();
   useEffect(() => {
-    if(typeof(ReactSession.get("un")) == "undefined" || ReactSession.get("un") == ""){
+    if (typeof ReactSession.get("un") == "undefined" || ReactSession.get("un") == "") {
       navigate("/");
     }
+  });
+
+  useEffect(() => {
+    console.log(tasklock.filter((val) => val === 3)[0]);
   });
 
   return (
@@ -23,19 +28,19 @@ function Home() {
         <div className="background-tint"></div>
         <div className="tasks">
           <div className="task-list">
-            <div className="task task1">
+            <div className={`task task1 ${typeof tasklock.filter((val) => val === 1)[0] === "undefined" ? "lock" : ""}`}>
               <TaskCard index={1} day="day 01" task="Task 01" desc={"Lorem, ipsum dolor sit amet consectetur "} availability="available" />
             </div>
-            <div className="task task2">
+            <div className={`task task2 ${typeof tasklock.filter((val) => val === 2)[0] === "undefined" ? "lock" : ""}`}>
               <TaskCard index={2} day="day 02" task="Task 02" desc={"Lorem, ipsum dolor sit amet consectetur "} availability="available" />
             </div>
-            <div className="task task3">
+            <div className={`task task3 ${typeof tasklock.filter((val) => val === 3)[0] === "undefined" ? "lock" : ""}`}>
               <TaskCard index={3} day="day 03" task="Task 03" desc={"Lorem, ipsum dolor sit amet consectetur "} availability="available" />
             </div>
-            <div className="task task4">
+            <div className={`task task4 ${typeof tasklock.filter((val) => val === 4)[0] === "undefined" ? "lock" : ""}`}>
               <TaskCard index={4} day="day 04" task="Task 04" desc={"Lorem, ipsum dolor sit amet consectetur "} availability="available" />
             </div>
-            <div className="task task5">
+            <div className={`task task5 ${typeof tasklock.filter((val) => val === 5)[0] === "undefined" ? "lock" : ""}`}>
               <TaskCard index={5} day="day 05" task="Task 05" desc={"Lorem, ipsum dolor sit amet consectetur "} availability="available" />
             </div>
           </div>
@@ -102,6 +107,11 @@ const Container = styled.div`
         flex-wrap: wrap;
 
         .task {
+          &.lock {
+            filter: blur(1px);
+            pointer-events: none;
+          }
+
           &:nth-of-type() {
             margin-top: 300px;
           }

@@ -26,7 +26,7 @@ function Task1({ randomNumber }) {
     { index: 9, image: `CampusPhotos/8.jpg` },
     { index: 10, image: `CampusPhotos/9.jpg` },
   ];
-  const data = ["Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, consequuntur.", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, consequuntur.", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, consequuntur.", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, consequuntur.", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, consequuntur."];
+  const data = ["only use the facebook post link of the selfie to upload.", "use both #piratesofthetrinco #trincopulse hashtags in the post you upload.", "link can be upload only one time.", "selfies without hashtags will not be allowed."];
 
   const navigate = useNavigate();
   const [imageSelected, setImageSelected] = useState("../assets/campus1.jpg");
@@ -108,7 +108,13 @@ function Task1({ randomNumber }) {
         <div className="instruction-container">
           <div className="desc">
             <span>Overview</span>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi, totam esse. Accusantium deleniti quis natus, consequatur eum optio excepturi saepe unde, ducimus nobis id nam et eveniet enim voluptas veritatis. Exercitationem, ratione harum tempore provident inventore a illum molestiae pariatur omnis nihil nam dignissimos, ipsum maiores perferendis excepturi quidem repellat iste quos impedit magnam sunt iusto? Pariatur delectus accusantium id! Voluptatum sunt amet sequi ipsa dolores tempore tempora, obcaecati nesciunt explicabo, voluptate vel magni! Quidem culpa sequi in reprehenderit aspernatur maiores rerum voluptatibus tempore ipsam,
+            <p>welcome to trinco games day 01.</p>
+            <p>this is a picture identifying game so that you can be familiar with the places of trincomalee campus.</p>
+            <p>first there will be a blured picture of a specific place in the campus.</p>
+            <p>you should identify the place first.</p>
+            <p>then you have to visit that place and take a selfie of you(if individual it's a photo of you and if a group selfie should be whole team) with that place surrounded and you have to upload it into facebook.</p>
+            <p>then copy the link of the post and paste it in the portal provided.</p>
+            <p>hope you you enjoy the game.</p>
           </div>
           <div className="instructions-rules">
             <div className="title-content">Instructions & Rules</div>
@@ -296,6 +302,11 @@ const Container = styled.div`
           font-size: 1.5rem;
           font-weight: 600;
           margin-bottom: 20px;
+        }
+
+        p {
+          margin-top: 10px;
+          margin-bottom: 10px;
         }
       }
 

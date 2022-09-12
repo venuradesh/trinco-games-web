@@ -313,7 +313,6 @@ function Register() {
             {clicked === "individual" ? (
               <>
                 <InputFeild type="text" id="full-name" content="Name" checkUser={""} />
-                {nameError ? <div className="error">*{nameError}</div> : <></>}
               </>
             ) : (
               <>
@@ -355,10 +354,18 @@ function Register() {
                 {regNoPatternError ? <div className="error">*{regNoPatternError}</div> : <></>}
               </>
             )}
-            {clicked === "individual" ? <InputFeild type="text" id="username" content="Username" checkUser={checkUser} /> : <></>}
+            {clicked === "individual" ? (
+              <>
+                <InputFeild type="text" id="username" content="Username" checkUser={checkUser} />
+                {nameError ? <div className="error">*{nameError}</div> : <></>}
+              </>
+            ) : (
+              <></>
+            )}
             <InputFeild type="text" id="contact-no" content="Contact Number" />
             <InputFeild type="password" id="password" content="Password" />
           </div>
+          {singleFeildMissingError ? <div className="error">*{singleFeildMissingError}</div> : <></>}
           <div className="btn-container">
             <button type="submit" className="submit btn" onClick={(e) => onSubmitClick(e)}>
               Submit

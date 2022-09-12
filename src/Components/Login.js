@@ -33,20 +33,28 @@ function Login() {
   };
 
   const singleUserLogin = () => {
+    var t=true;
     let name = document.getElementById("username").value;
     let password = document.getElementById("password").value;
     const q = query(collection(db, "single_user"));
     const user = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
         if (doc.data().password == password && doc.data().userName == name) {
+          setError("");
+          var t=false;
           ReactSession.set("un", name);
           navigate("/home");
           console.log("go to dashboard");
+          
         } else {
-          alert("invalid login");
+          var t=false;
+          setError("invalid login");
         }
       });
     });
+    if(t){
+      setError("");
+    }
   };
 
   const groupUserLogin = () => {

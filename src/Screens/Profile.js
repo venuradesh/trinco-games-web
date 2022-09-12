@@ -4,12 +4,14 @@ import Header from "../Components/Header";
 import { useNavigate } from "react-router-dom";
 import { ReactSession } from 'react-client-session';
 
-import { collection, addDoc, getDocs, onSnapshot, query, where, doc, setDoc,updateDoc,orderBy } from "firebase/firestore";
+import { collection, addDoc, getDocs, onSnapshot, query, where, doc, setDoc,updateDoc,orderBy,deleteDoc } from "firebase/firestore";
 import {db} from "../Firebase/firebase";
 
 function Profile() {
   ReactSession.setStoreType("localStorage");
   const [userDetails,setUserDetails]=useState([]);
+  const [id,setId]=useState("");
+  const [type,setType]=useState("");
   const navigate = useNavigate();
   useEffect(() => {
     if(typeof(ReactSession.get("un")) == "undefined" || ReactSession.get("un") == ""){
@@ -19,6 +21,8 @@ function Profile() {
     const user = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
         setUserDetails((prev) => [...prev, doc.data()]);
+        setId(doc.id);
+        setType("single");
         
       });
     });
@@ -27,15 +31,33 @@ function Profile() {
     const user1 = onSnapshot(q1, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
         setUserDetails((prev) => [...prev, doc.data()]);
+        setId(doc.id);
+        setType("group");
       });
     });
   });
+  const deleteAccount=()=>{
+    console.log(id);
+    console.log(type);
+    if(type=="single"){
+      deleteDoc(doc(db, "single_user", id));
+      ReactSession.set("");
+      navigate("/");
+    }
+    else if(type=="group"){
+      deleteDoc(doc(db, "group", id));
+      ReactSession.set("");
+      navigate("/");
+    }
+    
+  }
+
   return (
     <Container>
       <Header />
       <div className="profile-container">
         <div className="profile-details-container">
-          <div className="profile-pic">V</div>
+          <div className="profile-pic">{typeof(userDetails[0]) != "undefined"?userDetails[0].name.charAt(0):""}</div>
           <div className="profile-details">
             <div className="name">{typeof(userDetails[0]) != "undefined"?userDetails[0].name:""}</div>
             <div className="reg-no">{typeof(userDetails[0]) != "undefined"?userDetails[0].regNo:""}</div>
@@ -48,7 +70,7 @@ function Profile() {
           You've Earned <span>{typeof(userDetails[0]) != "undefined"?userDetails[0].points:""}</span> points
         </div>
         <div className="options">
-          <div className="delete-acc">Delete Account</div>
+          <div className="delete-acc" onClick={()=>deleteAccount()}>Delete Account</div>
         </div>
       </div>
     </Container>

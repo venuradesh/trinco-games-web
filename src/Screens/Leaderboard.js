@@ -62,7 +62,7 @@ function Leaderboard() {
           <div className="first-place">
             <div className="title">Leading Point taker</div>
             <div className="content">
-              <div className="profile-pic">V</div>
+              <div className="profile-pic">{typeof(pointDetails[0]) != "undefined"?pointDetails[0].name.charAt(0):""}</div>
               <div className="name-container">
                 <div className="name">{typeof(pointDetails[0]) != "undefined"?pointDetails[0].name:""}</div>
                 <div className="reg-no">{typeof(pointDetails[0]) != "undefined"?(typeof(pointDetails[0].regNo) != "undefined"?pointDetails[0].regNo:"Group"):""}</div>

@@ -66,7 +66,7 @@ function Login() {
           ReactSession.set("un", name);
           navigate("/home");
         } else {
-          alert("invalid login");
+          setError("invalid login");
         }
       });
     });

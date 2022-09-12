@@ -357,26 +357,26 @@ function Register() {
             </select>
             {clicked === "individual" ? (
               <>
-                <InputFeild type="text" id="reg-no" content="Register Number" checkUser={checkRegNumber} />
+                <InputFeild type="text" id="reg-no" content="EUSL/TC/IS/......." checkUser={checkRegNumber} />
                 {regNoPatternError ? <div className="error">*{regNoPatternError}</div> : <></>}
               </>
             ) : (
               <>
                 <div className="member">
                   <InputFeild type="text" id="full-name1" content="member 1 Name" checkUser={""} />
-                  <InputFeild type="text" id="reg-no1" content="Register Number" checkUser={checkRegNumber} />
+                  <InputFeild type="text" id="reg-no1" content="EUSL/TC/IS/......." checkUser={checkRegNumber} />
                 </div>
                 <div className="member">
                   <InputFeild type="text" id="full-name2" content="member 2 Name" checkUser={""} />
-                  <InputFeild type="text" id="reg-no2" content="Register Number" checkUser={checkRegNumber} />
+                  <InputFeild type="text" id="reg-no2" content="EUSL/TC/IS/......." checkUser={checkRegNumber} />
                 </div>
                 <div className="member">
                   <InputFeild type="text" id="full-name3" content="member 3 Name" checkUser={""} />
-                  <InputFeild type="text" id="reg-no3" content="Register Number" checkUser={checkRegNumber} />
+                  <InputFeild type="text" id="reg-no3" content="EUSL/TC/IS/......." checkUser={checkRegNumber} />
                 </div>
                 <div className="member">
                   <InputFeild type="text" id="full-name4" content="member 4 Name" checkUser={""} />
-                  <InputFeild type="text" id="reg-no4" content="Register Number" checkUser={checkRegNumber} />
+                  <InputFeild type="text" id="reg-no4" content="EUSL/TC/IS/......." checkUser={checkRegNumber} />
                 </div>
                 {regNoPatternError ? <div className="error">*{regNoPatternError}</div> : <></>}
               </>

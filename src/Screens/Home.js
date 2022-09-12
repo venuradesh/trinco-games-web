@@ -108,7 +108,7 @@ const Container = styled.div`
 
         .task {
           &.lock {
-            filter: blur(1px);
+            filter: blur(2px);
             pointer-events: none;
           }
 

@@ -33,7 +33,7 @@ function Login() {
   };
 
   const singleUserLogin = () => {
-    var t=true;
+    var t = true;
     let name = document.getElementById("username").value;
     let password = document.getElementById("password").value;
     const q = query(collection(db, "single_user"));
@@ -41,18 +41,17 @@ function Login() {
       querySnapshot.forEach((doc) => {
         if (doc.data().password == password && doc.data().userName == name) {
           setError("");
-          var t=false;
+          var t = false;
           ReactSession.set("un", name);
           navigate("/home");
           console.log("go to dashboard");
-          
         } else {
-          var t=false;
+          var t = false;
           setError("invalid login");
         }
       });
     });
-    if(t){
+    if (t) {
       setError("");
     }
   };
@@ -113,6 +112,7 @@ const Container = styled.div`
   transform: translateY(-50%);
   padding: 20px;
   border-radius: 8px;
+  z-index: 10;
 
   .login-user-type {
     display: flex;

@@ -12,24 +12,36 @@ import { collection, addDoc, getDocs, onSnapshot, query, where, doc, setDoc, upd
 import { db } from "../Firebase/firebase";
 import { ReactSession } from "react-client-session";
 
+//images
+import CampusImage1 from "../assets/CampusPhotos/0.JPG";
+import CampusImage2 from "../assets/CampusPhotos/1.JPG";
+import CampusImage3 from "../assets/CampusPhotos/2.JPG";
+import CampusImage4 from "../assets/CampusPhotos/3.JPG";
+import CampusImage5 from "../assets/CampusPhotos/4.JPG";
+import CampusImage6 from "../assets/CampusPhotos/5.JPG";
+import CampusImage7 from "../assets/CampusPhotos/6.JPG";
+import CampusImage8 from "../assets/CampusPhotos/7.JPG";
+import CampusImage9 from "../assets/CampusPhotos/8.JPG";
+import CampusImage10 from "../assets/CampusPhotos/9.JPG";
+
 function Task1({ randomNumber }) {
   const [isTaskComplete, setIsTaskComplete] = useState(false);
   const images = [
-    { index: 1, image: `CampusPhotos/0.jpg` },
-    { index: 2, image: `CampusPhotos/1.jpg` },
-    { index: 3, image: `CampusPhotos/2.jpg` },
-    { index: 4, image: `CampusPhotos/3.jpg` },
-    { index: 5, image: `CampusPhotos/4.jpg` },
-    { index: 6, image: `CampusPhotos/5.jpg` },
-    { index: 7, image: `CampusPhotos/6.jpg` },
-    { index: 8, image: `CampusPhotos/7.jpg` },
-    { index: 9, image: `CampusPhotos/8.jpg` },
-    { index: 10, image: `CampusPhotos/9.jpg` },
+    { index: 1, image: CampusImage1 },
+    { index: 2, image: CampusImage2 },
+    { index: 3, image: CampusImage3 },
+    { index: 4, image: CampusImage4 },
+    { index: 5, image: CampusImage5 },
+    { index: 6, image: CampusImage6 },
+    { index: 7, image: CampusImage7 },
+    { index: 8, image: CampusImage8 },
+    { index: 9, image: CampusImage9 },
+    { index: 10, image: CampusImage10 },
   ];
   const data = ["only use the facebook post link of the selfie to upload.", "use both #piratesofthetrinco #trincopulse hashtags in the post you upload.", "link can be upload only one time.", "selfies without hashtags will not be allowed."];
 
   const navigate = useNavigate();
-  const [imageSelected, setImageSelected] = useState("../assets/campus1.jpg");
+  const [imageSelected, setImageSelected] = useState(CampusImage1);
 
   useEffect(() => {
     images.map((image) => {

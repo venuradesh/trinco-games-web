@@ -39,13 +39,13 @@ function Task1({ randomNumber }) {
       if (image.index === parseInt(randomNumber)) {
         setImageSelected(image.image);
       }
-      const q = query(collection(db, "task1"),where("name","==",ReactSession.get("un")));
+      const q = query(collection(db, "task1"), where("name", "==", ReactSession.get("un")));
       const user = onSnapshot(q, (querySnapshot) => {
         querySnapshot.forEach((doc) => {
           setIsTaskComplete(true);
         });
       });
-      });
+    });
   }, []);
 
   const onSubmitClick = () => {
@@ -64,7 +64,7 @@ function Task1({ randomNumber }) {
       name: name,
       randomNum: randomNum,
       link: link,
-      time:Date.now(),
+      time: Date.now(),
       key: ref.id,
     });
     const time = setTimeout(() => {
@@ -78,7 +78,7 @@ function Task1({ randomNumber }) {
 
   return (
     <Container>
-      {isTaskComplete ? (
+      {/* {isTaskComplete ? (
         <div className="job-complete">
           <div className="task-complete-content">
             <img src={Complete} alt="complete-btn" className="complete" />
@@ -87,7 +87,7 @@ function Task1({ randomNumber }) {
         </div>
       ) : (
         <></>
-      )}
+      )} */}
       <div className="title">
         <div className="back-btn" onClick={() => navigate("/home")}>
           <img src={BackBtn} alt="back" className="back" />
@@ -98,11 +98,17 @@ function Task1({ randomNumber }) {
         <div className="image-container">
           <img src={imageSelected} alt="image" className="challengeImage" />
           <div className="link">
-            <InputFeild type="text" id="selfie-upload" content="Upload the Facebook link here" />
-            <img src={Hand} alt="pointer" className="hand" />
+            {!isTaskComplete ? (
+              <>
+                <InputFeild type="text" id="selfie-upload" content="Upload the Facebook link here" />
+                <img src={Hand} alt="pointer" className="hand" />
+              </>
+            ) : (
+              <></>
+            )}
           </div>
           <div className="btn" onClick={(e) => onSubmitClick(e)}>
-            Submit
+            {isTaskComplete ? "Task Complete" : "Submit"}
           </div>
         </div>
         <div className="instruction-container">

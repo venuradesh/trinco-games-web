@@ -658,6 +658,12 @@ const Container = styled.div`
   }
 
   @media only screen and (max-width: 950px) {
+    .insContainer {
+      .insBox {
+        width: 80%;
+      }
+    }
+
     .register-container {
       width: 70%;
 
@@ -688,5 +694,22 @@ const Container = styled.div`
   }
 
   @media only screen and (max-width: 450px) {
+    .insContainer {
+      .insBox {
+        width: 90%;
+        .instructions-rules {
+          .title-content {
+            font-size: 1.2rem;
+          }
+          .points {
+            .point-container {
+              .point {
+                font-size: 0.8rem;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 `;

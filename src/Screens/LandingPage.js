@@ -206,6 +206,12 @@ const Container = styled.div`
   }
 
   @media only screen and (max-width: 950px) {
+    .insContainer {
+      .insBox {
+        width: 80%;
+      }
+    }
+
     .title-container {
       width: 100%;
       top: 5%;
@@ -233,6 +239,24 @@ const Container = styled.div`
   }
 
   @media only screen and (max-width: 450px) {
+    .insContainer {
+      .insBox {
+        width: 90%;
+        .instructions-rules {
+          .title-content {
+            font-size: 1.2rem;
+          }
+          .points {
+            .point-container {
+              .point {
+                font-size: 0.8rem;
+              }
+            }
+          }
+        }
+      }
+    }
+
     .title-container {
       .title {
         font-size: 2rem;

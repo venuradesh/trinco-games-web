@@ -13,16 +13,16 @@ import { db } from "../Firebase/firebase";
 import { ReactSession } from "react-client-session";
 
 //images
-import CampusImage1 from "../assets/CampusPhotos/0.JPG";
-import CampusImage2 from "../assets/CampusPhotos/1.JPG";
-import CampusImage3 from "../assets/CampusPhotos/2.JPG";
-import CampusImage4 from "../assets/CampusPhotos/3.JPG";
-import CampusImage5 from "../assets/CampusPhotos/4.JPG";
-import CampusImage6 from "../assets/CampusPhotos/5.JPG";
-import CampusImage7 from "../assets/CampusPhotos/6.JPG";
-import CampusImage8 from "../assets/CampusPhotos/7.JPG";
-import CampusImage9 from "../assets/CampusPhotos/8.JPG";
-import CampusImage10 from "../assets/CampusPhotos/9.JPG";
+import CampusImage1 from "../assets/CampusPhotos/0.jpeg";
+import CampusImage2 from "../assets/CampusPhotos/1.jpeg";
+import CampusImage3 from "../assets/CampusPhotos/2.jpeg";
+import CampusImage4 from "../assets/CampusPhotos/3.jpeg";
+import CampusImage5 from "../assets/CampusPhotos/4.jpeg";
+import CampusImage6 from "../assets/CampusPhotos/5.jpeg";
+import CampusImage7 from "../assets/CampusPhotos/6.jpeg";
+import CampusImage8 from "../assets/CampusPhotos/7.jpeg";
+import CampusImage9 from "../assets/CampusPhotos/8.jpeg";
+import CampusImage10 from "../assets/CampusPhotos/9.jpeg";
 
 function Task1({ randomNumber }) {
   const [isTaskComplete, setIsTaskComplete] = useState(false);

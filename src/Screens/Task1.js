@@ -67,10 +67,6 @@ function Task1({ randomNumber }) {
       time: Date.now(),
       key: ref.id,
     });
-    const time = setTimeout(() => {
-      setIsTaskComplete(false);
-    }, 1000);
-    setIsTaskComplete(true);
     console.log("out");
     console.log("sucsses" + ref.id);
     return docRef;
@@ -107,9 +103,13 @@ function Task1({ randomNumber }) {
               <></>
             )}
           </div>
-          <div className="btn" onClick={(e) => onSubmitClick(e)}>
-            {isTaskComplete ? "Task Complete" : "Submit"}
-          </div>
+          {isTaskComplete ? (
+            <div className="btn">Task Complete</div>
+          ) : (
+            <div className="btn" onClick={(e) => onSubmitClick(e)}>
+              Submit
+            </div>
+          )}
         </div>
         <div className="instruction-container">
           <div className="desc">

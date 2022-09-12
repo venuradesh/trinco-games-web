@@ -39,7 +39,13 @@ function Task1({ randomNumber }) {
       if (image.index === parseInt(randomNumber)) {
         setImageSelected(image.image);
       }
-    });
+      const q = query(collection(db, "task1"),where("name","==",ReactSession.get("un")));
+      const user = onSnapshot(q, (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          setIsTaskComplete(true);
+        });
+      });
+      });
   }, []);
 
   const onSubmitClick = () => {
@@ -58,6 +64,7 @@ function Task1({ randomNumber }) {
       name: name,
       randomNum: randomNum,
       link: link,
+      time:Date.now(),
       key: ref.id,
     });
     const time = setTimeout(() => {

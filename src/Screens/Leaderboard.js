@@ -14,7 +14,8 @@ import {db} from "../Firebase/firebase";
 function Leaderboard() {
   ReactSession.setStoreType("localStorage");
   const navigate = useNavigate();
-  const [pointDetails,setPointDetails]=useState([]);
+  let [pointDetails,setPointDetails]=useState([]);
+  let pointsD=[];
   useEffect(() => {
 
     if(typeof(ReactSession.get("un")) == "undefined" || ReactSession.get("un") == ""){
@@ -35,20 +36,26 @@ function Leaderboard() {
     });
   },[]);
   if(typeof(pointDetails[0]) != "undefined"){
+    pointsD=pointDetails;
+    console.log(pointsD);
     for(let i=0;i<pointDetails.length;i++){
-      for(let j=0;j<pointDetails.length;j++){
-        if(pointDetails[i].points>pointDetails[j].points){
-          let temp=pointDetails[i];
-          pointDetails[i]=pointDetails[j];
-          pointDetails[j]=temp;
+
+      for(let j=0;j<pointDetails.length-1;j++){
+        if(parseInt(pointDetails[j].points)<parseInt(pointDetails[j+1].points)){
+          console.log(pointDetails.length);
+          let temp=pointDetails[j];
+          pointDetails[j]=pointDetails[j+1];
+          pointDetails[j+1]=temp;
         }
       }
       
     }
 
     for(let i=0;i<pointDetails.length;i++){
+      if(pointDetails[i].points!=0){
+        console.log(pointDetails[i].points);
+      }
       
-      console.log(pointDetails[i].points);
       
     }
   }
@@ -207,6 +214,7 @@ const Container = styled.div`
           justify-content: center;
           font-weight: 700;
           transform: rotateZ(-45deg);
+          text-transform:uppercase;
         }
       }
 

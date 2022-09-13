@@ -11,7 +11,7 @@ import InputFeild from "../Components/InputFeild";
 
 function Home() {
   const data = ["today you have to get your lunch at main canteen.(request it as token rice.it will be rs 150/=)", "then you will be given a token. and there will be a common question about trincomalee campus.", "find the answer and enter it in the box provided.", "then only you can enroll into task 02.", "hope you enjoy day 02 of trinco games."];
-  const [tasklock, setTaskLock] = useState([1, 2]);
+  const [tasklock, setTaskLock] = useState([1,2]);
   const [taskClicked, setTaskClicked] = useState(false);
   const [err, setErr] = useState("");
   const [correctAnswer, setCorrectAnswer] = useState([5, 2001]);

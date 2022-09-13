@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-function TaskCard({ day, task, desc, availability, index }) {
+function TaskCard({ day, task, desc, availability, index, taskPopup = false }) {
   const navigate = useNavigate();
   return (
     <Container>
@@ -12,7 +12,7 @@ function TaskCard({ day, task, desc, availability, index }) {
       <div className="availability">
         Availability: <span>{availability}</span>
       </div>
-      <div className="btn" onClick={() => navigate(`/task${index}`)}>
+      <div className="btn" onClick={() => (!taskPopup ? navigate(`/task${index}`) : taskPopup(true))}>
         Enter to the Task
       </div>
       <div className="box"></div>

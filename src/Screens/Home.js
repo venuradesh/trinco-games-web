@@ -10,7 +10,7 @@ import Point from "../assets/points.png";
 import InputFeild from "../Components/InputFeild";
 
 function Home() {
-  const data = ["Users only can register either individual or group only.(individual player cannot be a member of any group)", "When you register please use your full registration number.(EX:EUSL/TC/IS/......)", "If you are a individual player use a unique name for your username."];
+  const data = ["today you have to get your lunch at main canteen.(request it as token rice.it will be rs 150/=)", "then you will be given a token. and there will be a common question about trincomalee campus.", "find the answer and enter it in the box provided.", "then only you can enroll into task 02.", "hope you enjoy day 02 of trinco games."];
   const [tasklock, setTaskLock] = useState([1, 2]);
   const [taskClicked, setTaskClicked] = useState(false);
   const [err, setErr] = useState("");
@@ -43,7 +43,7 @@ function Home() {
             <div className="instructions">
               <div className="instructions-rules">
                 <div className="title-content">
-                  Instructions & Rules
+                  Welcome to trinco Games Day 02
                   <img src={Cross} alt="close" className="close-btn" onClick={() => setTaskClicked(false)} />
                 </div>
                 <div className="points">

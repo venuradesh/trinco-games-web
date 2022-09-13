@@ -11,7 +11,7 @@ import Cover from "../assets/wallpaper4.jpg";
 import TrincoSong from "../assets/trinco-music.mp3";
 
 function Task2() {
-  const data = ["only use the facebook post link of the selfie to upload.", "use both #piratesofthetrinco #trincopulse hashtags in the post you upload.", "link can be upload only one time.", "selfies without hashtags will not be allowed."];
+  const data = ["only use the facebook post link of short video to upload the video.", "use both #piratesofthetrinco #trincopulse hashtags in the post you upload.", "link can be upload only one time.", "short videos without hashtags will not be allowed.", "wrong hashtags will not be allowed."];
   const navigate = useNavigate();
 
   const [isTaskComplete, setIsTaskComplete] = useState(false);
@@ -57,12 +57,10 @@ function Task2() {
         <div className="instruction-container">
           <div className="desc">
             <span>Overview</span>
-            <p>welcome to trinco games day 01.</p>
-            <p>this is a picture identifying game so that you can be familiar with the places of trincomalee campus.</p>
-            <p>first there will be a blured picture of a specific place in the campus.</p>
-            <p>you should identify the place first.</p>
-            <p>then you have to visit that place and take a selfie of you(if individual it's a photo of you and if a group selfie should be whole team) with that place surrounded and you have to upload it into facebook.</p>
-            <p>then copy the link of the post and paste it in the portal provided.</p>
+            <p>Welcome to Trinco Games day 02</p>
+            <p>Iit can be either selfie video or any other creative video.</p>
+            <p>you can download the song from the download option provided here.(choose any download option.its your choice)</p>
+            <p>upload it into facebook then copy the link of your post and paste it in the portal provided.</p>
             <p>hope you you enjoy the game.</p>
           </div>
           <div className="instructions-rules">

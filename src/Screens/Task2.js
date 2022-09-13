@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import fileDownload from "js-file-download";
@@ -8,7 +8,9 @@ import InputFeild from "../Components/InputFeild";
 import Hand from "../assets/hand.png";
 import Point from "../assets/points.png";
 import Cover from "../assets/wallpaper4.jpg";
-import TrincoSong from "../assets/trinco-music.mp3";
+import TrincoSong1 from "../assets/trinco-campus-song1.mpeg";
+import TrincoSong2 from "../assets/trinco-campus-song2.mpeg";
+import TrincoSong3 from "../assets/trinco-campus-song3.mpeg";
 
 import { collection, addDoc, getDocs, onSnapshot, query, where, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../Firebase/firebase";
@@ -19,16 +21,18 @@ function Task2() {
   const navigate = useNavigate();
 
   const [isTaskComplete, setIsTaskComplete] = useState(false);
+  const [songSelected, setSongSelected] = useState(null);
 
   useEffect(() => {
-      const q = query(collection(db, "task2"), where("name", "==", ReactSession.get("un")));
-      const user = onSnapshot(q, (querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          setIsTaskComplete(true);
-        });
+    const q = query(collection(db, "task2"), where("name", "==", ReactSession.get("un")));
+    const user = onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        setIsTaskComplete(true);
       });
-  }, []);
+    });
 
+    // console.log(Math.floor(Math.random * 3) + 1);
+  }, []);
 
   const onSubmitClick = () => {
     let link = document.getElementById("selfie-upload").value;
@@ -51,7 +55,20 @@ function Task2() {
     return docRef;
   };
 
-  const songDownload = () => {};
+  const songDownload = () => {
+    if (songSelected === null) {
+      const randomNumber = Math.floor(Math.random() * 3) + 1;
+      console.log(randomNumber);
+
+      if (randomNumber === 1) {
+        setSongSelected(TrincoSong1);
+      } else if (randomNumber === 2) {
+        setSongSelected(TrincoSong2);
+      } else {
+        setSongSelected(TrincoSong3);
+      }
+    }
+  };
 
   return (
     <Container>
@@ -64,7 +81,7 @@ function Task2() {
       <div className="content">
         <div className="image-container">
           <img src={Cover} alt="cover-photo" className="coverImage" />
-          <a target="_blank" className="music-download" href={TrincoSong} download="trinco-music.mp3">
+          <a target="_blank" className="music-download" href={songSelected} download="trinco-music.mp3">
             <div className="btn" onClick={() => songDownload()}>
               Download the Song
             </div>

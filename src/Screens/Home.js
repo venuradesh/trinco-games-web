@@ -5,19 +5,31 @@ import Image from "../assets/map2.jpg";
 import TaskCard from "../Components/TaskCard";
 import { useNavigate } from "react-router-dom";
 import { ReactSession } from "react-client-session";
+import Cross from "../assets/cross.png";
+import Point from "../assets/points.png";
+import InputFeild from "../Components/InputFeild";
 
 function Home() {
-  const [tasklock, setTaskLock] = useState([1]);
+  const data = ["Users only can register either individual or group only.(individual player cannot be a member of any group)", "When you register please use your full registration number.(EX:EUSL/TC/IS/......)", "If you are a individual player use a unique name for your username."];
+  const [tasklock, setTaskLock] = useState([1, 2]);
+  const [taskClicked, setTaskClicked] = useState(false);
+  const [err, setErr] = useState("");
+  const correctAnser = 5;
   ReactSession.setStoreType("localStorage");
   const navigate = useNavigate();
+
+  const onPopupSubmitClick = () => {
+    if (parseInt(document.getElementById("input-number").value) === correctAnser) {
+      navigate("/task2");
+    } else {
+      setErr("Incorrect Answer");
+    }
+  };
+
   useEffect(() => {
     if (typeof ReactSession.get("un") == "undefined" || ReactSession.get("un") == "") {
       navigate("/");
     }
-  });
-
-  useEffect(() => {
-    console.log(tasklock.filter((val) => val === 3)[0]);
   });
 
   return (
@@ -26,22 +38,51 @@ function Home() {
       <div className="map">
         <div className="background"></div>
         <div className="background-tint"></div>
+        {taskClicked ? (
+          <div className="task-popup">
+            <div className="instructions">
+              <div className="instructions-rules">
+                <div className="title-content">
+                  Instructions & Rules
+                  <img src={Cross} alt="close" className="close-btn" onClick={() => setTaskClicked(false)} />
+                </div>
+                <div className="points">
+                  {data.map((data, key) => (
+                    <div className="point-container" key={key}>
+                      <img src={Point} alt="points" />
+                      <div className="point">{data}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="input-submit">
+                  <InputFeild type="text" id="input-number" content="Enter the Number" />
+                  <div className="btn-submit" onClick={() => onPopupSubmitClick()}>
+                    Submit
+                  </div>
+                </div>
+                <div className="error">{err}</div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <></>
+        )}
         <div className="tasks">
           <div className="task-list">
             <div className={`task task1 ${typeof tasklock.filter((val) => val === 1)[0] === "undefined" ? "lock" : ""}`}>
               <TaskCard index={1} day="day 01" task="Task 01" desc={"Try to find the blured place"} availability="available" />
             </div>
             <div className={`task task2 ${typeof tasklock.filter((val) => val === 2)[0] === "undefined" ? "lock" : ""}`}>
-              <TaskCard index={2} day="day 02" task="Task 02" desc={"Lorem, ipsum dolor sit amet consectetur "} availability="available" />
+              <TaskCard taskPopup={setTaskClicked} index={2} day="day 02" task="Task 02" desc={"Construct a short video"} availability="available" />
             </div>
             <div className={`task task3 ${typeof tasklock.filter((val) => val === 3)[0] === "undefined" ? "lock" : ""}`}>
-              <TaskCard index={3} day="day 03" task="Task 03" desc={"Lorem, ipsum dolor sit amet consectetur "} availability="available" />
+              <TaskCard index={3} day="day 03" task="Task 03" desc={"Lorem, ipsum dolor sit amet consectetur "} availability="not available" />
             </div>
             <div className={`task task4 ${typeof tasklock.filter((val) => val === 4)[0] === "undefined" ? "lock" : ""}`}>
-              <TaskCard index={4} day="day 04" task="Task 04" desc={"Lorem, ipsum dolor sit amet consectetur "} availability="available" />
+              <TaskCard index={4} day="day 04" task="Task 04" desc={"Lorem, ipsum dolor sit amet consectetur "} availability="not available" />
             </div>
             <div className={`task task5 ${typeof tasklock.filter((val) => val === 5)[0] === "undefined" ? "lock" : ""}`}>
-              <TaskCard index={5} day="day 05" task="Task 05" desc={"Lorem, ipsum dolor sit amet consectetur "} availability="available" />
+              <TaskCard index={5} day="day 05" task="Task 05" desc={"Lorem, ipsum dolor sit amet consectetur "} availability="not available" />
             </div>
           </div>
         </div>
@@ -86,6 +127,97 @@ const Container = styled.div`
       background-color: var(--theme1);
       opacity: 0.5;
       z-index: -1;
+    }
+
+    .task-popup {
+      width: 100vw;
+      height: 100vh;
+      z-index: 100;
+      position: absolute;
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .instructions {
+        width: 60%;
+        height: max-content;
+        max-height: 80%;
+        overflow: hidden;
+        padding: 20px;
+        overflow-y: auto;
+        background-color: var(--white);
+        box-shadow: 0 0 10px 0 var(--gray);
+        &::-webkit-scrollbar {
+          width: 5px;
+        }
+        &::-webkit-scrollbar-thumb {
+          background-color: var(--theme1);
+        }
+        .instructions-rules {
+          .title-content {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .close-btn {
+              width: 25px;
+              cursor: pointer;
+              transition: all 0.3s ease;
+              &:hover {
+                transform: scale(1.05);
+              }
+            }
+          }
+          .points {
+            margin-left: 0px;
+            .point-container {
+              display: flex;
+              align-items: center;
+              margin-bottom: 20px;
+              margin-left: 20px;
+              img {
+                width: 20px;
+              }
+              .point {
+                font-weight: 100;
+                margin-left: 20px;
+              }
+            }
+          }
+
+          .input-submit {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            column-gap: 30px;
+
+            .btn-submit {
+              width: 40%;
+              height: 50px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 8px;
+              background-color: var(--theme1);
+              font-size: 0.8rem;
+              color: var(--white);
+              cursor: pointer;
+            }
+          }
+
+          .error {
+            width: 100%;
+            font-size: 0.9rem;
+            color: var(--red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+      }
     }
 
     .tasks {
@@ -138,6 +270,12 @@ const Container = styled.div`
     .map {
       height: 150vh;
 
+      .task-popup {
+        .instructions {
+          width: 80%;
+        }
+      }
+
       .tasks {
         align-items: flex-start;
 
@@ -157,6 +295,35 @@ const Container = styled.div`
   @media only screen and (max-width: 450px) {
     .map {
       height: 280vh;
+
+      .task-popup {
+        height: 150vh;
+
+        .instructions {
+          width: 90%;
+
+          .instructions-rules {
+            .title-content {
+              font-size: 1.2rem;
+            }
+
+            .points {
+              .point {
+                font-size: 0.8rem;
+              }
+            }
+
+            .input-submit {
+              .btn-submit {
+                width: max-content;
+                height: max-content;
+                padding: 10px 20px;
+                font-size: 0.8rem;
+              }
+            }
+          }
+        }
+      }
     }
   }
 `;

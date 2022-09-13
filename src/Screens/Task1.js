@@ -86,16 +86,6 @@ function Task1({ randomNumber }) {
 
   return (
     <Container>
-      {/* {isTaskComplete ? (
-        <div className="job-complete">
-          <div className="task-complete-content">
-            <img src={Complete} alt="complete-btn" className="complete" />
-            Task Complete!
-          </div>
-        </div>
-      ) : (
-        <></>
-      )} */}
       <div className="title">
         <div className="back-btn" onClick={() => navigate("/home")}>
           <img src={BackBtn} alt="back" className="back" />

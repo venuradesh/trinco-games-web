@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import fileDownload from "js-file-download";
@@ -10,13 +10,46 @@ import Point from "../assets/points.png";
 import Cover from "../assets/wallpaper4.jpg";
 import TrincoSong from "../assets/trinco-music.mp3";
 
+import { collection, addDoc, getDocs, onSnapshot, query, where, doc, setDoc, updateDoc } from "firebase/firestore";
+import { db } from "../Firebase/firebase";
+import { ReactSession } from "react-client-session";
+
 function Task2() {
   const data = ["only use the facebook post link of short video to upload the video.", "use both #piratesofthetrinco #trincopulse hashtags in the post you upload.", "link can be upload only one time.", "short videos without hashtags will not be allowed.", "wrong hashtags will not be allowed."];
   const navigate = useNavigate();
 
   const [isTaskComplete, setIsTaskComplete] = useState(false);
 
-  const onSubmitClick = () => {};
+  useEffect(() => {
+      const q = query(collection(db, "task2"), where("name", "==", ReactSession.get("un")));
+      const user = onSnapshot(q, (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          setIsTaskComplete(true);
+        });
+      });
+  }, []);
+
+
+  const onSubmitClick = () => {
+    let link = document.getElementById("selfie-upload").value;
+    let name = ReactSession.get("un");
+
+    Promise.all([addTask(link, name)]);
+    setIsTaskComplete(true);
+  };
+
+  const addTask = (link, name) => {
+    console.log(link);
+    const ref = doc(collection(db, "task2"));
+    const docRef = addDoc(collection(db, "task2"), {
+      name: name,
+      link: link,
+      time: Date.now(),
+      key: ref.id,
+    });
+    console.log("sucsses" + ref.id);
+    return docRef;
+  };
 
   const songDownload = () => {};
 

@@ -14,12 +14,13 @@ function Home() {
   const [tasklock, setTaskLock] = useState([1, 2]);
   const [taskClicked, setTaskClicked] = useState(false);
   const [err, setErr] = useState("");
-  const correctAnser = 5;
+  const [correctAnswer, setCorrectAnswer] = useState([5, 2001]);
   ReactSession.setStoreType("localStorage");
   const navigate = useNavigate();
 
   const onPopupSubmitClick = () => {
-    if (parseInt(document.getElementById("input-number").value) === correctAnser) {
+    const inputValue = document.getElementById("input-number").value;
+    if (correctAnswer.filter((val) => val === parseInt(inputValue)).length !== 0) {
       navigate("/task2");
     } else {
       setErr("Incorrect Answer");

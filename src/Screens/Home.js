@@ -11,7 +11,7 @@ import InputFeild from "../Components/InputFeild";
 
 function Home() {
   const data = ["today you have to get your lunch at main canteen.(request it as token rice.it will be rs 150/=)", "then you will be given a token. and there will be a common question about trincomalee campus.", "find the answer and enter it in the box provided.", "then only you can enroll into task 02.", "hope you enjoy day 02 of trinco games."];
-  const [tasklock, setTaskLock] = useState([1,2]);
+  const [tasklock, setTaskLock] = useState([1, 2, 3]);
   const [taskClicked, setTaskClicked] = useState(false);
   const [err, setErr] = useState("");
   const [correctAnswer, setCorrectAnswer] = useState([5, 2001]);
@@ -77,7 +77,7 @@ function Home() {
               <TaskCard taskPopup={setTaskClicked} index={2} day="day 02" task="Task 02" desc={"Construct a short video"} availability="available" />
             </div>
             <div className={`task task3 ${typeof tasklock.filter((val) => val === 3)[0] === "undefined" ? "lock" : ""}`}>
-              <TaskCard index={3} day="day 03" task="Task 03" desc={"Lorem, ipsum dolor sit amet consectetur "} availability="not available" />
+              <TaskCard index={3} day="day 03" task="Task 03" desc={"Identify the secret guest"} availability="available" />
             </div>
             <div className={`task task4 ${typeof tasklock.filter((val) => val === 4)[0] === "undefined" ? "lock" : ""}`}>
               <TaskCard index={4} day="day 04" task="Task 04" desc={"Lorem, ipsum dolor sit amet consectetur "} availability="not available" />
